@@ -1,12 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gf.minimal.notifications">
+<manifest package="com.github.gfranks.minimal.notification">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-
-    </application>
+    <application />
 
 </manifest>

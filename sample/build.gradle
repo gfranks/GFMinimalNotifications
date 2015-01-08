@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.gf.minimal.notifications.sample"
+        applicationId "com.github.gf.minimal.notifications.sample"
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 1

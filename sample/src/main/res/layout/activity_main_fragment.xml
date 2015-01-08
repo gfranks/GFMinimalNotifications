@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/trailer_top_fragment"
-        android:name="com.gf.minimal.notifications.sample.MainFragment"
+        android:name="com.github.gfranks.minimal.notification.sample.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

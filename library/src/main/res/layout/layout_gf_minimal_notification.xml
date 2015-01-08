@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/notification_height"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="5dp"
-    android:weightSum="10">
+    android:weightSum="5">
 
-    <com.gf.minimal.notifications.widget.CircleImageView
-        android:id="@+id/notification_left_image"
+    <ImageView
+        android:id="@+id/notification_left_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/notification_image_size"
-        android:layout_weight="2"
-        app:border_width="1dp" />
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/notification_text_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_weight="3"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -50,12 +48,11 @@
 
     </LinearLayout>
 
-    <com.gf.minimal.notifications.widget.CircleImageView
-        android:id="@+id/notification_right_image"
+    <ImageView
+        android:id="@+id/notification_right_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/notification_image_size"
-        android:layout_weight="2"
-        android:visibility="gone"
-        app:border_width="1dp" />
+        android:layout_weight="1"
+        android:visibility="gone" />
 
 </LinearLayout>

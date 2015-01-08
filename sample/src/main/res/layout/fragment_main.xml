@@ -28,34 +28,34 @@
                 android:id="@+id/sample_show"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/show"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/sample_show_no_duration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/show_without_duration"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/sample_dismiss"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/dismiss"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -70,23 +70,23 @@
                 android:id="@+id/sample_slide_from_top"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/slide_in_top"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/sample_slide_from_bottom"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/slide_in_bottom"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -107,60 +107,61 @@
                 android:id="@+id/sample_style_error"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_red"
                 android:padding="5dp"
                 android:text="@string/style_error"
-                android:textSize="11sp"
                 android:textColor="@color/white"
-                android:background="@drawable/bg_button_red"/>
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/sample_style_success"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_green"
                 android:padding="5dp"
                 android:text="@string/style_success"
-                android:textSize="11sp"
                 android:textColor="@color/white"
-                android:background="@drawable/bg_button_green"/>
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/sample_style_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_orange"
                 android:padding="5dp"
                 android:text="@string/style_info"
-                android:textSize="11sp"
                 android:textColor="@color/white"
-                android:background="@drawable/bg_button_orange"/>
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/sample_style_default"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_blue"
                 android:padding="5dp"
                 android:text="@string/style_default"
-                android:textSize="11sp"
                 android:textColor="@color/white"
-                android:background="@drawable/bg_button_blue"/>
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/sample_style_warning"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_yellow"
                 android:padding="5dp"
                 android:text="@string/style_warning"
-                android:textSize="11sp"
-                android:background="@drawable/bg_button_yellow"/>
+                android:textColor="@color/gray_dark"
+                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -181,23 +182,23 @@
                 android:id="@+id/sample_set_left_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/set_left_view"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/sample_remove_left_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/remove_left_view"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -218,23 +219,23 @@
                 android:id="@+id/sample_set_right_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/set_right_view"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/sample_remove_right_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_gray"
                 android:padding="5dp"
                 android:text="@string/remove_right_view"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_button_gray"/>
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
