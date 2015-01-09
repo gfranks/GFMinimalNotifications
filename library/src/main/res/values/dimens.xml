@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="notification_height_with_shadow">68dp</dimen>
+    <dimen name="notification_height">65dp</dimen>
+    <dimen name="notification_elevation">3dp</dimen>
+    <dimen name="notification_image_size">45dp</dimen>
+</resources>

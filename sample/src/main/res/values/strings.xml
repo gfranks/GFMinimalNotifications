@@ -1,0 +1,38 @@
+<resources>
+
+    <string name="app_name">GFMinimalNotificationsSample</string>
+
+    <string name="activity_name">Notification Activity Sample</string>
+    <string name="fragment_activity_name">Notification Fragment Sample</string>
+
+    <string name="presentation">Presentation:</string>
+    <string name="style">Style:</string>
+    <string name="left_view">Left View:</string>
+    <string name="right_view">Right View:</string>
+
+    <string name="show">Show</string>
+    <string name="show_without_duration">No duration</string>
+    <string name="dismiss">Dismiss</string>
+
+    <string name="slide_in_top">Slide from top</string>
+    <string name="slide_in_bottom">Slide from bottom</string>
+
+    <string name="set_left_view">Show left view</string>
+    <string name="remove_left_view">Remove left view</string>
+    <string name="set_right_view">Show right view</string>
+    <string name="remove_right_view">Remove right view</string>
+
+    <string name="style_error">Error</string>
+    <string name="style_success">Success</string>
+    <string name="style_info">Info</string>
+    <string name="style_default">Default</string>
+    <string name="style_warning">Warning</string>
+
+    <string name="title">Testing</string>
+    <string name="title_hint">Title</string>
+    <string name="subtitle">This is my awesome sub-title</string>
+    <string name="subtitle_hint">Subtitle</string>
+
+    <string name="action_fragment_sample">Fragment Sample</string>
+
+</resources>
