@@ -6,7 +6,7 @@
     <title>Gfminimalnotifications by gfranks</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
     <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
@@ -54,81 +54,69 @@
 <h3>
 <a id="basic-example" class="anchor" href="#basic-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic Example</h3>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">/**</span>
-<span class="pl-c"> * To use the GFMinimalNotification, you must either, extend one of the provided activity or fragment classes,</span>
-<span class="pl-c"> * pass the container view you wish to display the notification in, or you may include the provided GFMinimalNotificationLayout in your xml file.</span>
-<span class="pl-c"> * You may display this in the activity's window decor view as well.</span>
-<span class="pl-c"> */</span>
-<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">MainActivity</span> <span class="pl-s">extends</span> <span class="pl-e">BaseNotificationActionBarActivity</span> {
+<div class="highlight highlight-source-java"><pre>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivity</span> <span class="pl-k">extends</span> <span class="pl-e">Activity</span> {
 
-    <span class="pl-s">private</span> <span class="pl-stj">GFMinimalNotification</span> minimalNotification;
+    <span class="pl-k">private</span> <span class="pl-smi">GFMinimalNotification</span> minimalNotification;
 
-    <span class="pl-st">@Override</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onCreate</span>(<span class="pl-stj">Bundle</span> <span class="pl-v">savedInstanceState</span>) {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onCreate</span>(<span class="pl-smi">Bundle</span> <span class="pl-v">savedInstanceState</span>) {
         <span class="pl-v">super</span><span class="pl-k">.</span>onCreate(savedInstanceState);
-        setContentView(<span class="pl-stj">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>activity_main);
+        setContentView(<span class="pl-smi">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>activity_main);
 
         <span class="pl-c">// instantiate with Constructor method</span>
-        minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-stj">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
-                <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>);
+        minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
+                <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>);
 
         <span class="pl-c">// instantiate with Builder</span>
-        minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFMinimalNotification</span>.<span class="pl-stj">Builder</span>(<span class="pl-v">this</span>)
-                                              .title(<span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
-                                              .subtitle(<span class="pl-s1"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
-                                              .style(<span class="pl-stj">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>)
+        minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
+                                              .title(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
+                                              .subtitle(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
+                                              .style(<span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>)
                                               .build();
     }
+
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Showing the notification from a method</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">show</span>() {
-        minimalNotification<span class="pl-k">.</span>show(<span class="pl-v">this</span>);
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Showing the notification inside a container from a method</span>
-<span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">showInView</span>() {
-        minimalNotification<span class="pl-k">.</span>show(findViewById(<span class="pl-k">&lt;</span>id_of_your_container_view<span class="pl-k">&gt;</span>));
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">show</span>() {
+        minimalNotification<span class="pl-k">.</span>show((<span class="pl-smi">ViewGroup</span>) findViewById(<span class="pl-k">&lt;</span>id_of_your_container_view<span class="pl-k">&gt;</span>)); <span class="pl-c">// Must be ViewGroup</span>
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Showing the notification in the decor view from a method. If dispalyed from the top, this will overlay the actionbar/toolbar</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">showFromDecor</span>() {
-        minimalNotification<span class="pl-k">.</span>show(<span class="pl-v">this</span>);
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">showFromDecor</span>() {
+        minimalNotification<span class="pl-k">.</span>show(getWindow()<span class="pl-k">.</span>getDecorView());
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Hiding the notification from a method</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">dismiss</span>() {
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">dismiss</span>() {
         minimalNotification<span class="pl-k">.</span>dismiss();
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Set the notification to display from the top of the screen</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">setDisplayFromTop</span>() {
-        minimalNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-stj">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_TOP</span>);
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromTop</span>() {
+        minimalNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_TOP</span>);
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Set the notification to display from the bottom of the screen</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">setDisplayFromBottom</span>() {
-        minimalNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-stj">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_BOTTOM</span>);
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromBottom</span>() {
+        minimalNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_BOTTOM</span>);
     }
 }</pre></div>
-
-<p>Want to use the new <code>Toolbar</code>? You can! Just extend <code>BaseNotificationToolbarActivity</code> to enable toolbar use. Or if you want to use your own implementation, copy this library into your project or use the <code>show(...)</code> (passing the activity or fragment instance) or <code>show(findViewById(&lt;id_of_your_container_view&gt;)</code> option when displaying your notification.</p>
 
 <h3>
 <a id="constructors--options" class="anchor" href="#constructors--options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Constructors / Options</h3>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">/**</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">/**</span>
 <span class="pl-c"> * Note: passing a duration of 0 means the notification will NOT be automatically dismissed, you will need to </span>
 <span class="pl-c"> * dismiss the notification yourself by calling dismiss() on the notification object. If you pass a duration </span>
 <span class="pl-c"> * value greater than 0, this will be the length of time the notification will remain visisble before being </span>
@@ -137,34 +125,34 @@
 <span class="pl-c"> */</span>
 
 <span class="pl-c">// With duration</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-stj">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
-                <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-stj">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
+minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
+                <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
 
 <span class="pl-c">// Without duration and with onClick listener</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-stj">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
-                <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>)
-                .setOnGFMinimalNotificationClickListener(<span class="pl-k">new</span> <span class="pl-stj">OnGFMinimalNotificationClickListener</span>() {
-                    <span class="pl-st">@Override</span>
-                    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onClick</span>(<span class="pl-stj">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
+minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
+                <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>)
+                .setOnGFMinimalNotificationClickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
+                    <span class="pl-k">@Override</span>
+                    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
                         notification<span class="pl-k">.</span>dismiss();
                     }
                 });
 
 <span class="pl-c">// with Builder</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFMinimalNotification</span>.<span class="pl-stj">Builder</span>(<span class="pl-v">this</span>)
-                                              .title(<span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
-                                              .subtitle(<span class="pl-s1"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
-                                              .style(<span class="pl-stj">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>)
-                                              .clickListener(<span class="pl-k">new</span> <span class="pl-stj">OnGFMinimalNotificationClickListener</span>() {
-                                                                  <span class="pl-st">@Override</span>
-                                                                  <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onClick</span>(<span class="pl-stj">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
+minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
+                                              .title(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
+                                              .subtitle(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
+                                              .style(<span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>)
+                                              .clickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
+                                                                  <span class="pl-k">@Override</span>
+                                                                  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
                                                                       <span class="pl-c">// dismiss if no duration</span>
                                                                   }
                                                               })
                                               .build();</pre></div>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">// Available Styles</span>
-<span class="pl-s">public</span> <span class="pl-s">enum</span> <span class="pl-en">GFMinimalNotificationStyle</span> {
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Available Styles</span>
+<span class="pl-k">public</span> <span class="pl-k">enum</span> <span class="pl-en">GFMinimalNotificationStyle</span> {
     <span class="pl-c1">DEFAULT</span>,
     <span class="pl-c1">ERROR</span>,
     <span class="pl-c1">SUCCESS</span>,
@@ -183,32 +171,31 @@ display at the bottom by default but has the same presentation options as the <c
 those classes. However, this notification does not use styles. But you may use any of the accessor methods to modify any text or
 background option on the undo notification.</p>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">/**</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">/**</span>
 <span class="pl-c"> * Please consult the GFUndoNotification or GFUndoNotificationLayout class to see all available constructors/options.</span>
 <span class="pl-c"> */</span>
 <span class="pl-c">// With duration and title only</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-stj">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
+minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
 
 <span class="pl-c">// With duration and title/sub-title</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-stj">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
+minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
 
 <span class="pl-c">// Without duration and with onClick listener</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>)
-                .setOnGFMinimalNotificationClickListener(<span class="pl-k">new</span> <span class="pl-stj">OnGFMinimalNotificationClickListener</span>() {
-                                    <span class="pl-st">@Override</span>
-                                    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onClick</span>(<span class="pl-stj">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
+minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>)
+                .setOnGFMinimalNotificationClickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
+                                    <span class="pl-k">@Override</span>
+                                    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
                                         notification<span class="pl-k">.</span>dismiss();
                                     }
                                 });
 
 <span class="pl-c">// with Builder</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFUndoNotification</span>.<span class="pl-stj">Builder</span>(<span class="pl-v">this</span>)
-                                           .title(<span class="pl-s1"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
-                                           .subtitle(<span class="pl-s1"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
-                                           .style(<span class="pl-stj">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>)
-                                           .clickListener(<span class="pl-k">new</span> <span class="pl-stj">OnGFMinimalNotificationClickListener</span>() {
-                                                               <span class="pl-st">@Override</span>
-                                                               <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onClick</span>(<span class="pl-stj">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
+minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
+                                           .title(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
+                                           .subtitle(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
+                                           .clickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
+                                                               <span class="pl-k">@Override</span>
+                                                               <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
                                                                    <span class="pl-c">// dismiss if no duration</span>
                                                                }
                                                            })
@@ -217,33 +204,33 @@ minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <s
 <h4>
 <a id="basic-undo-example" class="anchor" href="#basic-undo-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic Undo Example</h4>
 
-<div class="highlight highlight-java"><pre><span class="pl-c">/**</span>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">/**</span>
 <span class="pl-c"> * To use the GFUndoNotification, you must follow the same principles as expressed in the above example.</span>
 <span class="pl-c"> */</span>
-<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">MainActivity</span> <span class="pl-s">extends</span> <span class="pl-e">BaseNotificationActionBarActivity</span> {
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivity</span> <span class="pl-k">extends</span> <span class="pl-e">Activity</span> {
 
-    <span class="pl-s">private</span> <span class="pl-stj">GFUndoNotification</span> undoNotification;
+    <span class="pl-k">private</span> <span class="pl-smi">GFUndoNotification</span> undoNotification;
 
-    <span class="pl-st">@Override</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onCreate</span>(<span class="pl-stj">Bundle</span> <span class="pl-v">savedInstanceState</span>) {
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onCreate</span>(<span class="pl-smi">Bundle</span> <span class="pl-v">savedInstanceState</span>) {
         <span class="pl-v">super</span><span class="pl-k">.</span>onCreate(savedInstanceState);
-        setContentView(<span class="pl-stj">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>activity_main);
+        setContentView(<span class="pl-smi">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>activity_main);
 
         <span class="pl-c">// instantiate with Constructor method</span>
-        undoNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s1"><span class="pl-pds">"</span>You did something<span class="pl-pds">"</span></span>)
-                .setGFUndoNotificationCallback(<span class="pl-k">new</span> <span class="pl-stj">GFUndoNotificationCallback</span>() {
-                            <span class="pl-st">@Override</span>
-                            <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onUndoAction</span>(<span class="pl-stj">GFUndoNotification</span> <span class="pl-v">notification</span>) {
+        undoNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>You did something<span class="pl-pds">"</span></span>)
+                .setGFUndoNotificationCallback(<span class="pl-k">new</span> <span class="pl-smi">GFUndoNotificationCallback</span>() {
+                            <span class="pl-k">@Override</span>
+                            <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onUndoAction</span>(<span class="pl-smi">GFUndoNotification</span> <span class="pl-v">notification</span>) {
                                 <span class="pl-c">// undo user performed action</span>
                             }
                         });
 
         <span class="pl-c">// instantiate with Builder</span>
-        undoNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">GFUndoNotification</span>.<span class="pl-stj">Builder</span>(<span class="pl-v">this</span>)
-                                                .title(<span class="pl-s1"><span class="pl-pds">"</span>You did something<span class="pl-pds">"</span></span>)
-                                                .undoCallback(<span class="pl-k">new</span> <span class="pl-stj">GFUndoNotificationCallback</span>() {
-                                                                    <span class="pl-st">@Override</span>
-                                                                    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">onUndoAction</span>(<span class="pl-stj">GFUndoNotification</span> <span class="pl-v">notification</span>) {
+        undoNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
+                                                .title(<span class="pl-s"><span class="pl-pds">"</span>You did something<span class="pl-pds">"</span></span>)
+                                                .undoCallback(<span class="pl-k">new</span> <span class="pl-smi">GFUndoNotificationCallback</span>() {
+                                                                    <span class="pl-k">@Override</span>
+                                                                    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onUndoAction</span>(<span class="pl-smi">GFUndoNotification</span> <span class="pl-v">notification</span>) {
                                                                         <span class="pl-c">// undo user performed action</span>
                                                                     }
                                                                 })
@@ -253,43 +240,36 @@ minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <s
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Showing the undo notification from a method</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">show</span>() {
-        undoNotification<span class="pl-k">.</span>show(<span class="pl-v">this</span>);
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Showing the undo notification inside a container from a method</span>
-<span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">showInView</span>() {
-        undoNotification<span class="pl-k">.</span>show(findViewById(<span class="pl-k">&lt;</span>id_of_your_container_view<span class="pl-k">&gt;</span>));
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">show</span>() {
+        undoNotification<span class="pl-k">.</span>show((<span class="pl-smi">ViewGroup</span>) findViewById(<span class="pl-k">&lt;</span>id_of_your_container_view<span class="pl-k">&gt;</span>)); <span class="pl-c">// Must be ViewGroup</span>
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Showing the undo notification in the decor view from a method. If displayed from the top, this will overlay the actionbar/toolbar</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">showFromDecor</span>() {
-        undoNotification<span class="pl-k">.</span>show(<span class="pl-v">this</span>);
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">showFromDecor</span>() {
+        undoNotification<span class="pl-k">.</span>show(getWindow()<span class="pl-k">.</span>getDecorView());
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Hiding the undo notification from a method</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">dismiss</span>() {
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">dismiss</span>() {
         undoNotification<span class="pl-k">.</span>dismiss();
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Set the notification to display from the top of the screen</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">setDisplayFromTop</span>() {
-        undoNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-stj">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_TOP</span>);
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromTop</span>() {
+        undoNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_TOP</span>);
     }
 
     <span class="pl-c">/**</span>
 <span class="pl-c">     * Set the notification to display from the bottom of the screen</span>
 <span class="pl-c">     */</span>
-    <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">setDisplayFromBottom</span>() {
-        undoNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-stj">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_BOTTOM</span>);
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromBottom</span>() {
+        undoNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_BOTTOM</span>);
     }
 }</pre></div>
 
@@ -299,13 +279,13 @@ minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <s
 <pre><code>/**
  * GFMinimalNotificationCallback
  */
-public void didShowNotification(GFMinimalNotification notification);
-public void didDismissNotification(GFMinimalNotification notification);
+void didShowNotification(GFMinimalNotification notification);
+void didDismissNotification(GFMinimalNotification notification);
 
 /**
  * GFUndoNotificationCallback
  */
-public void onUndoAction(GFUndoNotification notification);
+void onUndoAction(GFUndoNotification notification);
 </code></pre>
 
 <h2>
