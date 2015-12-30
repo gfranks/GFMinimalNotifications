@@ -1,14 +1,12 @@
 package com.github.gfranks.minimal.notification;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,17 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.github.gfranks.minimal.notification.activity.BaseNotificationActionBarActivity;
-import com.github.gfranks.minimal.notification.activity.BaseNotificationActivity;
-import com.github.gfranks.minimal.notification.activity.BaseNotificationFragmentActivity;
-import com.github.gfranks.minimal.notification.activity.BaseNotificationToolbarActivity;
-import com.github.gfranks.minimal.notification.fragment.BaseNotificationFragment;
-import com.github.gfranks.minimal.notification.fragment.BaseNotificationSupportFragment;
 
 public class GFMinimalNotification implements View.OnClickListener {
 
@@ -62,16 +52,6 @@ public class GFMinimalNotification implements View.OnClickListener {
     }
 
     /**
-     * Static method to instantiate GFMinimalNotification to build the notification
-     * @param context Context to be used to inflate the notification and set additional values
-     * @return GFMinimalNotification
-     */
-    public static GFMinimalNotification with(Context context) {
-        return new GFMinimalNotification(context);
-    }
-
-    /**
-     *
      * @param builder Builder to build the notification view
      */
     public GFMinimalNotification(Builder builder) {
@@ -210,6 +190,16 @@ public class GFMinimalNotification implements View.OnClickListener {
         setStyle(style);
         setTitleText(title);
         setSubtitleText(subtitle);
+    }
+
+    /**
+     * Static method to instantiate GFMinimalNotification to build the notification
+     *
+     * @param context Context to be used to inflate the notification and set additional values
+     * @return GFMinimalNotification
+     */
+    public static GFMinimalNotification with(Context context) {
+        return new GFMinimalNotification(context);
     }
 
     /**
@@ -495,9 +485,16 @@ public class GFMinimalNotification implements View.OnClickListener {
     }
 
     /**
+     * @return Left view of the notification
+     */
+    public View getLeftView() {
+        return mLeftView;
+    }
+
+    /**
      * NOTE: There is a height constraint of 65dp on this view
      *
-     * @param view    The desired view to replace the current left view
+     * @param view The desired view to replace the current left view
      * @return GFMinimalNotification
      */
     public GFMinimalNotification setLeftView(View view) {
@@ -506,13 +503,6 @@ public class GFMinimalNotification implements View.OnClickListener {
                 new LinearLayout.LayoutParams(0, mNotificationView.getContext().getResources().getDimensionPixelSize(R.dimen.notification_image_size), LEFT_RIGHT_VIEW_WEIGHT));
         mLeftView = view;
         return this;
-    }
-
-    /**
-     * @return Left view of the notification
-     */
-    public View getLeftView() {
-        return mLeftView;
     }
 
     /**
@@ -574,9 +564,16 @@ public class GFMinimalNotification implements View.OnClickListener {
     }
 
     /**
+     * @return Right view of the notification
+     */
+    public View getRightView() {
+        return mRightView;
+    }
+
+    /**
      * NOTE: There is a height constraint of 65dp on this view
      *
-     * @param view    The desired view to replace the current right view
+     * @param view The desired view to replace the current right view
      * @return GFMinimalNotification
      */
     public GFMinimalNotification setRightView(View view) {
@@ -585,13 +582,6 @@ public class GFMinimalNotification implements View.OnClickListener {
                 new LinearLayout.LayoutParams(0, mNotificationView.getContext().getResources().getDimensionPixelSize(R.dimen.notification_image_size), LEFT_RIGHT_VIEW_WEIGHT));
         mRightView = view;
         return this;
-    }
-
-    /**
-     * @return Right view of the notification
-     */
-    public View getRightView() {
-        return mRightView;
     }
 
     /**
@@ -641,87 +631,6 @@ public class GFMinimalNotification implements View.OnClickListener {
 
         mSlideDirection = slideDirection;
         return this;
-    }
-
-    /**
-     * Displays the notification outside of the activity and over the window decor view
-     *
-     * @param activity The desired activity to display the notification in
-     */
-    public void show(Activity activity) {
-        show((ViewGroup) activity.getWindow().getDecorView());
-    }
-
-    /**
-     * Presents the notification
-     *
-     * @param activity BaseNotificationActionBarActivity to show notification in
-     */
-    public void show(BaseNotificationActionBarActivity activity) {
-        show((FrameLayout) activity.findViewById(R.id.notification_root));
-    }
-
-    /**
-     * Presents the notification
-     *
-     * @param activity BaseNotificationToolBarActivity to show notification in
-     */
-    public void show(BaseNotificationToolbarActivity activity) {
-        show((FrameLayout) activity.findViewById(R.id.notification_root));
-    }
-
-    /**
-     * Presents the notification
-     *
-     * @param activity BaseNotificationFragmentActivity to show notification in
-     */
-    public void show(BaseNotificationFragmentActivity activity) {
-        show((FrameLayout) activity.findViewById(R.id.notification_root));
-    }
-
-    /**
-     * Presents the notification
-     *
-     * @param activity BaseNotificationActivity to show notification in
-     */
-    public void show(BaseNotificationActivity activity) {
-        show((FrameLayout) activity.findViewById(R.id.notification_root));
-    }
-
-    /**
-     * Presents the notification
-     *
-     * @param fragment BaseNotificationFragment to show notification in
-     */
-    public void show(BaseNotificationFragment fragment) {
-        show((FrameLayout) fragment.getView().findViewById(R.id.notification_root));
-    }
-
-    /**
-     * Presents the notification
-     *
-     * @param fragment BaseNotificationSupportFragment to show notification in
-     */
-    public void show(BaseNotificationSupportFragment fragment) {
-        show((FrameLayout) fragment.getView().findViewById(R.id.notification_root));
-    }
-
-    /**
-     * Displays the notification outside of the fragment's activity and over the window decor view
-     *
-     * @param fragment The desired fragment to display the notification in
-     */
-    public void show(Fragment fragment) {
-        show(fragment.getActivity());
-    }
-
-    /**
-     * Displays the notification outside of the fragment's activity and over the window decor view
-     *
-     * @param fragment The desired fragment to display the notification in
-     */
-    public void show(android.app.Fragment fragment) {
-        show(fragment.getActivity());
     }
 
     /**
@@ -823,7 +732,7 @@ public class GFMinimalNotification implements View.OnClickListener {
                 mTitleView.setEllipsize(TextUtils.TruncateAt.END);
                 titleLp.height = LinearLayout.LayoutParams.MATCH_PARENT;
             }
-            mSubtitleView.setGravity(Gravity.START|Gravity.TOP);
+            mSubtitleView.setGravity(Gravity.START | Gravity.TOP);
             mTitleView.setLayoutParams(titleLp);
         } else {
             mTitleView.setVisibility(View.GONE);
@@ -1108,40 +1017,8 @@ public class GFMinimalNotification implements View.OnClickListener {
             return new GFMinimalNotification(this);
         }
 
-        public void show(Activity activity) {
-            build().show((ViewGroup) activity.getWindow().getDecorView());
-        }
-
-        public void show(BaseNotificationActionBarActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationToolbarActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationFragmentActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationFragment fragment) {
-            build().show((FrameLayout) fragment.getView().findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationSupportFragment fragment) {
-            build().show((FrameLayout) fragment.getView().findViewById(R.id.notification_root));
-        }
-
-        public void show(Fragment fragment) {
-            build().show(fragment);
-        }
-
-        public void show(android.app.Fragment fragment) {
-            build().show(fragment);
+        public void show(ViewGroup viewGroup) {
+            build().show(viewGroup);
         }
     }
 }

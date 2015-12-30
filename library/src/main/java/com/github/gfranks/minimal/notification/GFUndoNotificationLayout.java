@@ -55,7 +55,6 @@ public class GFUndoNotificationLayout extends GFMinimalNotificationLayout {
     }
 
     /**
-     *
      * @param builder Builder to build the notification with
      * @return GFUndoNotification
      */
@@ -127,7 +126,7 @@ public class GFUndoNotificationLayout extends GFMinimalNotificationLayout {
     }
 
     /**
-     * @param view    The desired view to replace the current right view
+     * @param view The desired view to replace the current right view
      * @return GFUndoNotificationLayout
      */
     @Override

@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/sample_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+
     <fragment
         android:id="@+id/trailer_top_fragment"
         android:name="com.github.gfranks.minimal.notification.sample.MainFragment"

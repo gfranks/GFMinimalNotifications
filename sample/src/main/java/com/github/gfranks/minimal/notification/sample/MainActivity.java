@@ -2,32 +2,34 @@ package com.github.gfranks.minimal.notification.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
-import com.github.gfranks.minimal.notification.activity.BaseNotificationToolbarActivity;
 import com.github.gfranks.minimal.notification.GFMinimalNotification;
 import com.github.gfranks.minimal.notification.GFMinimalNotificationStyle;
 import com.github.gfranks.minimal.notification.OnGFMinimalNotificationClickListener;
-import com.github.gfranks.minimal.notification.widget.CircleImageView;
 
-/**
- * To use the GFMinimalNotification, you must extends one of the provided activity or fragment classes or
- * pass the container view you wish to display the notification in. You may display this in the activity's
- * window decor view as well.
- */
-public class MainActivity extends BaseNotificationToolbarActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private GFMinimalNotification mNotification;
+    private FrameLayout mNotificationRoot;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.sample_toolbar);
+        setSupportActionBar(toolbar);
+
+        mNotificationRoot = (FrameLayout) findViewById(R.id.sample_notification_container);
         Button show = (Button) findViewById(R.id.sample_show);
         Button showNoDuration = (Button) findViewById(R.id.sample_show_no_duration);
         Button dismiss = (Button) findViewById(R.id.sample_dismiss);
@@ -66,11 +68,14 @@ public class MainActivity extends BaseNotificationToolbarActivity implements Vie
         /**
          * Sample right image resource
          */
-        CircleImageView circleImageView = new CircleImageView(this);
-        circleImageView.setBorderWidth(3);
-        circleImageView.setBorderColor(getResources().getColor(R.color.gray_light));
-        circleImageView.setImageResource(R.drawable.batman);
-        mNotification.setRightView(circleImageView);
+        ImageView rightImageView = new ImageView(this);
+        rightImageView.setImageResource(R.drawable.batman);
+        mNotification.setRightView(rightImageView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         setTitle(getString(R.string.activity_name));
     }
@@ -100,7 +105,7 @@ public class MainActivity extends BaseNotificationToolbarActivity implements Vie
                 /**
                  * Show Notification
                  */
-                mNotification.show(this);
+                mNotification.show(mNotificationRoot);
                 break;
             case R.id.sample_show_no_duration:
                 mNotification.setTitleText(((EditText) findViewById(R.id.sample_title)).getText().toString());
@@ -116,7 +121,7 @@ public class MainActivity extends BaseNotificationToolbarActivity implements Vie
                 /**
                  * Show Notification
                  */
-                mNotification.show(this);
+                mNotification.show(mNotificationRoot);
                 break;
             case R.id.sample_dismiss:
                 /**

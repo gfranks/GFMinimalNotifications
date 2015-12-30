@@ -7,5 +7,5 @@ public interface GFUndoNotificationCallback {
      *
      * @param notification GFUndoNotification
      */
-    public void onUndoAction(GFUndoNotification notification);
+    void onUndoAction(GFUndoNotification notification);
 }

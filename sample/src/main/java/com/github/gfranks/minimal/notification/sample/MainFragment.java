@@ -2,26 +2,23 @@ package com.github.gfranks.minimal.notification.sample;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
-import com.github.gfranks.minimal.notification.fragment.BaseNotificationSupportFragment;
 import com.github.gfranks.minimal.notification.GFMinimalNotification;
 import com.github.gfranks.minimal.notification.GFMinimalNotificationStyle;
 import com.github.gfranks.minimal.notification.OnGFMinimalNotificationClickListener;
-import com.github.gfranks.minimal.notification.widget.CircleImageView;
 
-/**
- * To use the GFMinimalNotification, you must extends one of the provided activity or fragment classes or
- * pass the container view you wish to display the notification in. You may display this in the activity's
- * window decor view as well.
- */
-public class MainFragment extends BaseNotificationSupportFragment implements View.OnClickListener {
+public class MainFragment extends Fragment implements View.OnClickListener {
 
     private GFMinimalNotification mNotification;
+    private FrameLayout mNotificationRoot;
 
     /**
      * DO NOT OVERRIDE THIS FUNCTION. USE THE INHERITED METHOD *getContentView()* TO RETURN THE LAYOUT YOU WISH TO INFLATE.
@@ -30,18 +27,14 @@ public class MainFragment extends BaseNotificationSupportFragment implements Vie
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public int getContentView() {
-        return R.layout.fragment_main;
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mNotificationRoot = (FrameLayout) view.findViewById(R.id.sample_notification_container);
         Button show = (Button) view.findViewById(R.id.sample_show);
         Button showNoDuration = (Button) view.findViewById(R.id.sample_show_no_duration);
         Button dismiss = (Button) view.findViewById(R.id.sample_dismiss);
@@ -80,11 +73,9 @@ public class MainFragment extends BaseNotificationSupportFragment implements Vie
         /**
          * Sample right image resource
          */
-        CircleImageView circleImageView = new CircleImageView(getActivity());
-        circleImageView.setBorderWidth(3);
-        circleImageView.setBorderColor(getResources().getColor(R.color.gray_light));
-        circleImageView.setImageResource(R.drawable.batman);
-        mNotification.setRightView(circleImageView);
+        ImageView rightImageView = new ImageView(getActivity());
+        rightImageView.setImageResource(R.drawable.batman);
+        mNotification.setRightView(rightImageView);
     }
 
     @Override
@@ -97,7 +88,7 @@ public class MainFragment extends BaseNotificationSupportFragment implements Vie
                 /**
                  * Show Notification
                  */
-                mNotification.show(this);
+                mNotification.show(mNotificationRoot);
                 break;
             case R.id.sample_show_no_duration:
                 mNotification.setTitleText(((EditText) getView().findViewById(R.id.sample_title)).getText().toString());
@@ -113,7 +104,7 @@ public class MainFragment extends BaseNotificationSupportFragment implements Vie
                 /**
                  * Show Notification
                  */
-                mNotification.show(this);
+                mNotification.show(mNotificationRoot);
                 break;
             case R.id.sample_dismiss:
                 /**

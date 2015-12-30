@@ -30,11 +30,11 @@
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:lines="2"
             android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="2"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:lines="2"
-            android:maxLines="2"
             android:textSize="17sp" />
 
         <TextView
@@ -45,11 +45,11 @@
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:lines="3"
             android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="3"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:lines="3"
-            android:maxLines="3"
             android:textSize="12sp" />
 
     </LinearLayout>

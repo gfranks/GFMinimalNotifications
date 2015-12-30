@@ -7,12 +7,12 @@ public interface GFMinimalNotificationCallback {
      *
      * @param notification Notifcation to be shown
      */
-    public void didShowNotification(GFMinimalNotification notification);
+    void didShowNotification(GFMinimalNotification notification);
 
     /**
      * Callback for notification dismissal
      *
      * @param notification Notifcation that was dismissed
      */
-    public void didDismissNotification(GFMinimalNotification notification);
+    void didDismissNotification(GFMinimalNotification notification);
 }

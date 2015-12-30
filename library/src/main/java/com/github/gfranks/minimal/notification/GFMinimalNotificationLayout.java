@@ -33,6 +33,15 @@ public class GFMinimalNotificationLayout extends FrameLayout {
         return mNotification;
     }
 
+    /**
+     * @param notification The desired notification to show
+     * @return GFMinimalNotificationLayout
+     */
+    public GFMinimalNotificationLayout setNotification(GFMinimalNotification notification) {
+        mNotification = notification;
+        return this;
+    }
+
     protected void initNotification(Context context) {
         mNotification = new GFMinimalNotification(context);
     }
@@ -76,7 +85,6 @@ public class GFMinimalNotificationLayout extends FrameLayout {
     }
 
     /**
-     *
      * @param builder Builder to build the notification with
      * @return GFMinimalNotificationLayout
      */
@@ -86,16 +94,6 @@ public class GFMinimalNotificationLayout extends FrameLayout {
         } else {
             mNotification = new GFMinimalNotification(builder);
         }
-        return this;
-    }
-
-    /**
-     *
-     * @param notification The desired notification to show
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setNotification(GFMinimalNotification notification) {
-        mNotification = notification;
         return this;
     }
 
@@ -264,21 +262,21 @@ public class GFMinimalNotificationLayout extends FrameLayout {
     }
 
     /**
+     * @return Left view of the notification
+     */
+    public View getLeftView() {
+        return mNotification.getLeftView();
+    }
+
+    /**
      * NOTE: There is a height constraint of 65dp on this view
      *
-     * @param view    The desired view to replace the current left view
+     * @param view The desired view to replace the current left view
      * @return GFMinimalNotificationLayout
      */
     public GFMinimalNotificationLayout setLeftView(View view) {
         mNotification.setLeftView(view);
         return this;
-    }
-
-    /**
-     * @return Left view of the notification
-     */
-    public View getLeftView() {
-        return mNotification.getLeftView();
     }
 
     /**
@@ -309,21 +307,21 @@ public class GFMinimalNotificationLayout extends FrameLayout {
     }
 
     /**
+     * @return Right view of the notification
+     */
+    public View getRightView() {
+        return mNotification.getRightView();
+    }
+
+    /**
      * NOTE: There is a height constraint of 65dp on this view
      *
-     * @param view    The desired view to replace the current right view
+     * @param view The desired view to replace the current right view
      * @return GFMinimalNotificationLayout
      */
     public GFMinimalNotificationLayout setRightView(View view) {
         mNotification.setRightView(view);
         return this;
-    }
-
-    /**
-     * @return Right view of the notification
-     */
-    public View getRightView() {
-        return mNotification.getRightView();
     }
 
     /**

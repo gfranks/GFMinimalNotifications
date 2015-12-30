@@ -7,7 +7,7 @@
     android:padding="5dp"
     android:weightSum="5">
 
-    <com.github.gfranks.minimal.notification.widget.CircleImageView
+    <ImageView
         android:id="@+id/notification_left_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/notification_image_size"

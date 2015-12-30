@@ -1,34 +1,15 @@
 package com.github.gfranks.minimal.notification;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
-
-import com.github.gfranks.minimal.notification.activity.BaseNotificationActionBarActivity;
-import com.github.gfranks.minimal.notification.activity.BaseNotificationActivity;
-import com.github.gfranks.minimal.notification.activity.BaseNotificationFragmentActivity;
-import com.github.gfranks.minimal.notification.activity.BaseNotificationToolbarActivity;
-import com.github.gfranks.minimal.notification.fragment.BaseNotificationFragment;
-import com.github.gfranks.minimal.notification.fragment.BaseNotificationSupportFragment;
 
 public class GFUndoNotification extends GFMinimalNotification {
 
     private GFUndoNotificationCallback mUndoCallback;
-
-    /**
-     * Static method to instantiate GFUndoNotification to build the notification
-     * @param context Context to be used to inflate the undo notification and set additional values
-     * @return GFUndoNotification
-     */
-    public static GFUndoNotification with(Context context) {
-        return new GFUndoNotification(context);
-    }
 
     public GFUndoNotification(Builder builder) {
         this(builder.mContext, builder.mDuration);
@@ -103,6 +84,16 @@ public class GFUndoNotification extends GFMinimalNotification {
 
         setTitleText(title);
         setSubtitleText(subtitle);
+    }
+
+    /**
+     * Static method to instantiate GFUndoNotification to build the notification
+     *
+     * @param context Context to be used to inflate the undo notification and set additional values
+     * @return GFUndoNotification
+     */
+    public static GFUndoNotification with(Context context) {
+        return new GFUndoNotification(context);
     }
 
     /**
@@ -196,7 +187,7 @@ public class GFUndoNotification extends GFMinimalNotification {
     }
 
     /**
-     * @param view    The desired view to replace the current right view
+     * @param view The desired view to replace the current right view
      * @return GFUndoNotification
      */
     @Override
@@ -339,40 +330,8 @@ public class GFUndoNotification extends GFMinimalNotification {
             return new GFUndoNotification(this);
         }
 
-        public void show(Activity activity) {
-            build().show((ViewGroup) activity.getWindow().getDecorView());
-        }
-
-        public void show(BaseNotificationActionBarActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationToolbarActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationFragmentActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationActivity activity) {
-            build().show((FrameLayout) activity.findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationFragment fragment) {
-            build().show((FrameLayout) fragment.getView().findViewById(R.id.notification_root));
-        }
-
-        public void show(BaseNotificationSupportFragment fragment) {
-            build().show((FrameLayout) fragment.getView().findViewById(R.id.notification_root));
-        }
-
-        public void show(Fragment fragment) {
-            build().show(fragment);
-        }
-
-        public void show(android.app.Fragment fragment) {
-            build().show(fragment);
+        public void show(ViewGroup viewGroup) {
+            build().show(viewGroup);
         }
     }
 }

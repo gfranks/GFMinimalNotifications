@@ -24,12 +24,8 @@ How To Use It:
 ### Basic Example
 
 ```java
-/**
- * To use the GFMinimalNotification, you must either, extend one of the provided activity or fragment classes,
- * pass the container view you wish to display the notification in, or you may include the provided GFMinimalNotificationLayout in your xml file.
- * You may display this in the activity's window decor view as well.
- */
-public class MainActivity extends BaseNotificationActionBarActivity {
+
+public class MainActivity extends Activity {
 
     private GFMinimalNotification minimalNotification;
 
@@ -49,26 +45,20 @@ public class MainActivity extends BaseNotificationActionBarActivity {
                                               .style(GFMinimalNotificationStyle.DEFAULT)
                                               .build();
     }
-    
+
+
     /**
      * Showing the notification from a method
      */
     public void show() {
-        minimalNotification.show(this);
-    }
-
-    /**
-     * Showing the notification inside a container from a method
-     */
-    public void showInView() {
-        minimalNotification.show(findViewById(<id_of_your_container_view>));
+        minimalNotification.show((ViewGroup) findViewById(<id_of_your_container_view>)); // Must be ViewGroup
     }
 
     /**
      * Showing the notification in the decor view from a method. If dispalyed from the top, this will overlay the actionbar/toolbar
      */
     public void showFromDecor() {
-        minimalNotification.show(this);
+        minimalNotification.show(getWindow().getDecorView());
     }
 
     /**
@@ -93,8 +83,6 @@ public class MainActivity extends BaseNotificationActionBarActivity {
     }
 }
 ```
-
-Want to use the new ```Toolbar```? You can! Just extend ```BaseNotificationToolbarActivity``` to enable toolbar use. Or if you want to use your own implementation, copy this library into your project or use the ```show(...)``` (passing the activity or fragment instance) or ```show(findViewById(<id_of_your_container_view>)``` option when displaying your notification.
 
 ### Constructors / Options
 
@@ -195,7 +183,7 @@ minimalNotification = new GFUndoNotification.Builder(this)
 /**
  * To use the GFUndoNotification, you must follow the same principles as expressed in the above example.
  */
-public class MainActivity extends BaseNotificationActionBarActivity {
+public class MainActivity extends Activity {
 
     private GFUndoNotification undoNotification;
 
@@ -229,21 +217,14 @@ public class MainActivity extends BaseNotificationActionBarActivity {
      * Showing the undo notification from a method
      */
     public void show() {
-        undoNotification.show(this);
-    }
-
-    /**
-     * Showing the undo notification inside a container from a method
-     */
-    public void showInView() {
-        undoNotification.show(findViewById(<id_of_your_container_view>));
+        undoNotification.show((ViewGroup) findViewById(<id_of_your_container_view>)); // Must be ViewGroup
     }
 
     /**
      * Showing the undo notification in the decor view from a method. If displayed from the top, this will overlay the actionbar/toolbar
      */
     public void showFromDecor() {
-        undoNotification.show(this);
+        undoNotification.show(getWindow().getDecorView());
     }
 
     /**
@@ -275,13 +256,13 @@ Callback Methods:
     /**
      * GFMinimalNotificationCallback
      */
-    public void didShowNotification(GFMinimalNotification notification);
-    public void didDismissNotification(GFMinimalNotification notification);
+    void didShowNotification(GFMinimalNotification notification);
+    void didDismissNotification(GFMinimalNotification notification);
 
     /**
      * GFUndoNotificationCallback
      */
-    public void onUndoAction(GFUndoNotification notification);
+    void onUndoAction(GFUndoNotification notification);
 
 Installation:
 ------------
