@@ -1,35 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
-    </declare-styleable>
-
     <declare-styleable name="GFMinimalNotificationLayout">
-        <attr name="title_text" format="reference|string" />
-        <attr name="subtitle_text" format="reference|string" />
-        <attr name="left_layout" format="reference" />
-        <attr name="right_layout" format="reference" />
-        <attr name="display" format="enum">
-            <enum name="top" value="0" />
-            <enum name="bottom" value="1" />
-        </attr>
-        <attr name="style" format="enum">
-            <enum name="def" value="0" />
-            <enum name="error" value="1" />
-            <enum name="success" value="2" />
-            <enum name="info" value="3" />
-            <enum name="warning" value="4" />
-        </attr>
-    </declare-styleable>
-
-    <declare-styleable name="GFUndoNotificationLayout">
-        <attr name="undo_title_text" format="reference|string" />
-        <attr name="undo_subtitle_text" format="reference|string" />
-        <attr name="undo_left_layout" format="reference" />
-        <attr name="undo_display" format="enum">
-            <enum name="top" value="0" />
-            <enum name="bottom" value="1" />
-        </attr>
+        <attr name="android:maxWidth"/>
+        <attr name="elevation" />
+        <attr name="fbl_maxActionInlineWidth" format="dimension"/>
     </declare-styleable>
 </resources>

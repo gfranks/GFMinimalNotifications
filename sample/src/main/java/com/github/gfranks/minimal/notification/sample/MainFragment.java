@@ -7,17 +7,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.github.gfranks.minimal.notification.GFMinimalNotification;
-import com.github.gfranks.minimal.notification.GFMinimalNotificationStyle;
-import com.github.gfranks.minimal.notification.OnGFMinimalNotificationClickListener;
 
-public class MainFragment extends Fragment implements View.OnClickListener {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 
-    private GFMinimalNotification mNotification;
-    private FrameLayout mNotificationRoot;
+public class MainFragment extends Fragment {
+
+    @InjectView(R.id.sample_text)
+    EditText mText;
+    @InjectView(R.id.sample_action)
+    EditText mAction;
+    @InjectView(R.id.sample_use_action_text)
+    Button mUseActionTextButton;
+
+    private int mDuration = GFMinimalNotification.LENGTH_LONG;
+    private int mType = GFMinimalNotification.TYPE_DEFAULT;
+    private int mHelperResId = -1;
+    private int mActionResId = -1;
+    private boolean mUseActionText;
+
+    private GFMinimalNotification mCurrentNotification;
+
+    /*
+     * Just to not, this is not necessarily the proper way to construct and show the GFMinimalNotification.
+     * Normally, you would create and show inline and ignore the instance, not saving it to a property value.
+     * However, it can be done this way, but after a notification has been shown, it cannot be re-shown.
+     * Example: GFMinimalNotification.make(view, text, duration, type).show();
+     */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -27,117 +46,124 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mNotificationRoot = (FrameLayout) view.findViewById(R.id.sample_notification_container);
-        Button show = (Button) view.findViewById(R.id.sample_show);
-        Button showNoDuration = (Button) view.findViewById(R.id.sample_show_no_duration);
-        Button dismiss = (Button) view.findViewById(R.id.sample_dismiss);
-        Button slideInTop = (Button) view.findViewById(R.id.sample_slide_from_top);
-        Button slideInBottom = (Button) view.findViewById(R.id.sample_slide_from_bottom);
-        Button styleError = (Button) view.findViewById(R.id.sample_style_error);
-        Button styleSuccess = (Button) view.findViewById(R.id.sample_style_success);
-        Button styleInfo = (Button) view.findViewById(R.id.sample_style_info);
-        Button styleDefault = (Button) view.findViewById(R.id.sample_style_default);
-        Button styleWarning = (Button) view.findViewById(R.id.sample_style_warning);
-        Button setLeftView = (Button) view.findViewById(R.id.sample_set_left_view);
-        Button removeLeftView = (Button) view.findViewById(R.id.sample_remove_left_view);
-        Button setRightView = (Button) view.findViewById(R.id.sample_set_right_view);
-        Button removeRightView = (Button) view.findViewById(R.id.sample_remove_right_view);
-
-        show.setOnClickListener(this);
-        showNoDuration.setOnClickListener(this);
-        dismiss.setOnClickListener(this);
-        slideInTop.setOnClickListener(this);
-        slideInBottom.setOnClickListener(this);
-        styleError.setOnClickListener(this);
-        styleSuccess.setOnClickListener(this);
-        styleInfo.setOnClickListener(this);
-        styleDefault.setOnClickListener(this);
-        styleWarning.setOnClickListener(this);
-        setLeftView.setOnClickListener(this);
-        removeLeftView.setOnClickListener(this);
-        setRightView.setOnClickListener(this);
-        removeRightView.setOnClickListener(this);
-
-        /**
-         * Create Notification
-         */
-        mNotification = GFMinimalNotification.with(getActivity());
-
-        /**
-         * Sample right image resource
-         */
-        ImageView rightImageView = new ImageView(getActivity());
-        rightImageView.setImageResource(R.drawable.batman);
-        mNotification.setRightView(rightImageView);
+        ButterKnife.inject(this, view);
     }
 
-    @Override
+    @OnClick({R.id.sample_show, R.id.sample_show_no_duration, R.id.sample_dismiss, R.id.sample_type_error, R.id.sample_type_default,
+              R.id.sample_type_warning, R.id.sample_set_left_view, R.id.sample_remove_left_view, R.id.sample_set_right_view, R.id.sample_remove_right_view,
+              R.id.sample_use_action_text})
     public void onClick(View v) {
+        if (isDetached() || getActivity() == null) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.sample_show:
-                mNotification.setTitleText(((EditText) getView().findViewById(R.id.sample_title)).getText().toString());
-                mNotification.setSubtitleText(((EditText) getView().findViewById(R.id.sample_subtitle)).getText().toString());
-                mNotification.setDuration(GFMinimalNotification.LENGTH_SHORT);
-                /**
-                 * Show Notification
-                 */
-                mNotification.show(mNotificationRoot);
-                break;
-            case R.id.sample_show_no_duration:
-                mNotification.setTitleText(((EditText) getView().findViewById(R.id.sample_title)).getText().toString());
-                mNotification.setSubtitleText(((EditText) getView().findViewById(R.id.sample_subtitle)).getText().toString());
-                mNotification.setDuration(0);
-                mNotification.setOnGFMinimalNotificationClickListener(new OnGFMinimalNotificationClickListener() {
+                mDuration = GFMinimalNotification.LENGTH_LONG;
+                mCurrentNotification = GFMinimalNotification.make(getView(), mText.getText().toString(), mDuration, mType);
+                mCurrentNotification.setHelperImage(mHelperResId);
+                mCurrentNotification.setActionImage(mActionResId, new GFMinimalNotification.OnActionClickListener() {
                     @Override
-                    public void onClick(GFMinimalNotification notification) {
-                        notification.setOnGFMinimalNotificationClickListener(null);
-                        notification.dismiss();
+                    public boolean onActionClick(GFMinimalNotification notification) {
+                        return true;
                     }
                 });
-                /**
-                 * Show Notification
-                 */
-                mNotification.show(mNotificationRoot);
+                if (mUseActionText) {
+                    mCurrentNotification.setAction(mAction.getText().toString(), new GFMinimalNotification.OnActionClickListener() {
+                        @Override
+                        public boolean onActionClick(GFMinimalNotification notification) {
+                            return true;
+                        }
+                    });
+                }
+                mCurrentNotification.show();
+                break;
+            case R.id.sample_show_no_duration:
+                mDuration = GFMinimalNotification.LENGTH_INDEFINITE;
+                mCurrentNotification = GFMinimalNotification.make(getView(), mText.getText().toString(), mDuration, mType);
+                mCurrentNotification.setHelperImage(mHelperResId);
+                mCurrentNotification.setActionImage(mActionResId, new GFMinimalNotification.OnActionClickListener() {
+                    @Override
+                    public boolean onActionClick(GFMinimalNotification notification) {
+                        return true;
+                    }
+                });
+                if (mUseActionText) {
+                    mCurrentNotification.setAction(mAction.getText().toString(), new GFMinimalNotification.OnActionClickListener() {
+                        @Override
+                        public boolean onActionClick(GFMinimalNotification notification) {
+                            return true;
+                        }
+                    });
+                }
+                mCurrentNotification.show();
                 break;
             case R.id.sample_dismiss:
-                /**
-                 * Dismiss Notification
-                 */
-                mNotification.dismiss();
+                if (mCurrentNotification != null) {
+                    mCurrentNotification.dismiss();
+                }
                 break;
-            case R.id.sample_slide_from_top:
-                mNotification.setSlideDirection(GFMinimalNotification.SLIDE_TOP);
+            case R.id.sample_type_error:
+                mType = GFMinimalNotification.TYPE_ERROR;
+                if (mCurrentNotification != null && mCurrentNotification.isShown()) {
+                    mCurrentNotification.setType(mType);
+                }
                 break;
-            case R.id.sample_slide_from_bottom:
-                mNotification.setSlideDirection(GFMinimalNotification.SLIDE_BOTTOM);
+            case R.id.sample_type_default:
+                mType = GFMinimalNotification.TYPE_DEFAULT;
+                if (mCurrentNotification != null && mCurrentNotification.isShown()) {
+                    mCurrentNotification.setType(mType);
+                }
                 break;
-            case R.id.sample_style_error:
-                mNotification.setStyle(GFMinimalNotificationStyle.ERROR);
-                break;
-            case R.id.sample_style_success:
-                mNotification.setStyle(GFMinimalNotificationStyle.SUCCESS);
-                break;
-            case R.id.sample_style_info:
-                mNotification.setStyle(GFMinimalNotificationStyle.INFO);
-                break;
-            case R.id.sample_style_default:
-                mNotification.setStyle(GFMinimalNotificationStyle.DEFAULT);
-                break;
-            case R.id.sample_style_warning:
-                mNotification.setStyle(GFMinimalNotificationStyle.WARNING);
+            case R.id.sample_type_warning:
+                mType = GFMinimalNotification.TYPE_WARNING;
+                if (mCurrentNotification != null && mCurrentNotification.isShown()) {
+                    mCurrentNotification.setType(mType);
+                }
                 break;
             case R.id.sample_set_left_view:
-                mNotification.setLeftImageVisible(true);
+                mHelperResId = R.drawable.ic_heart;
+                if (mCurrentNotification != null && mCurrentNotification.isShown()) {
+                    mCurrentNotification.setHelperImage(mHelperResId);
+                }
                 break;
             case R.id.sample_remove_left_view:
-                mNotification.setLeftImageVisible(false);
+                mHelperResId = -1;
+                if (mCurrentNotification != null && mCurrentNotification.isShown()) {
+                    mCurrentNotification.setHelperImage(mHelperResId);
+                }
                 break;
             case R.id.sample_set_right_view:
-                mNotification.setRightImageVisible(true);
+                mActionResId = R.drawable.ic_done;
+                mUseActionText = false;
+                mUseActionTextButton.setText(R.string.use_action_text);
+                if (mCurrentNotification != null && mCurrentNotification.isShown()) {
+                    mCurrentNotification.setActionImage(mActionResId, new GFMinimalNotification.OnActionClickListener() {
+                        @Override
+                        public boolean onActionClick(GFMinimalNotification notification) {
+                            return true;
+                        }
+                    });
+                }
                 break;
             case R.id.sample_remove_right_view:
-                mNotification.setRightImageVisible(false);
+                mActionResId = -1;
+                mCurrentNotification.setActionImage(mActionResId, null);
+                break;
+            case R.id.sample_use_action_text:
+                mUseActionText = !mUseActionText;
+                if (mCurrentNotification != null && mCurrentNotification.isShown()) {
+                    mCurrentNotification.setAction(mAction.getText().toString(), new GFMinimalNotification.OnActionClickListener() {
+                        @Override
+                        public boolean onActionClick(GFMinimalNotification notification) {
+                            return true;
+                        }
+                    });
+                }
+                if (mUseActionText) {
+                    mUseActionTextButton.setText(R.string.remove_action_text);
+                } else {
+                    mUseActionTextButton.setText(R.string.use_action_text);
+                }
                 break;
         }
     }
