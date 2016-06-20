@@ -1,30 +1,52 @@
-<!DOCTYPE html>
-<html lang="en-us">
+<!doctype html>
+<html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Gfminimalnotifications by gfranks</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Gfminimalnotifications</h1>
-      <h2 class="project-tagline">GFMinimalNotifications - Beautiful and easy to use Android notifications</h2>
-      <a href="https://github.com/gfranks/GFMinimalNotifications" class="btn">View on GitHub</a>
-      <a href="https://github.com/gfranks/GFMinimalNotifications/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/gfranks/GFMinimalNotifications/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/gfranks/GFMinimalNotifications">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/gfranks/GFMinimalNotifications/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/gfranks/GFMinimalNotifications/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <section class="main-content">
-      <h1>
-<a id="gfminimalnotification" class="anchor" href="#gfminimalnotification" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GFMinimalNotification</h1>
+    <div class="wrapper">
 
-<p>GFMinimalNotifications was inspired by JFMinimalNotifications created by Jeremy Fox (<a href="https://github.com/atljeremy/JFMinimalNotifications">https://github.com/atljeremy/JFMinimalNotifications</a>)</p>
+      <section>
+        <div id="title">
+          <h1>Gfminimalnotifications</h1>
+          <p>GFMinimalNotifications - Beautiful and easy to use Android notifications</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/gfranks">gfranks</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-<p>This is an Android controller for presenting a beautiful notification that is highly configurable and works for both phone and tablet. GFMinimalNotification is only available for API levels 15+.</p>
+        <h1>
+<a id="gfminimalnotification-20" class="anchor" href="#gfminimalnotification-20" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GFMinimalNotification 2.0</h1>
+
+<p>GFMinimalNotifications was inspired by JFMinimalNotifications created by Jeremy Fox (<a href="https://github.com/atljeremy/JFMinimalNotifications">https://github.com/atljeremy/JFMinimalNotifications</a>) and Google's Snackbar</p>
+
+<p>This is an Android controller for presenting a beautiful notification that is highly configurable and works for both phone and tablet. GFMinimalNotification is only available for API levels 16+.
+because well, fragmentation is a bad thing. </p>
+
+<p>If you would like to contribute or have any issues, please use the issue tracker or email me directly at <a href="mailto:lgfz71@gmail.com">lgfz71@gmail.com</a></p>
 
 <h2>
 <a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Use It:</h2>
@@ -35,236 +57,185 @@
 <div class="highlight highlight-source-java"><pre>
 <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivity</span> <span class="pl-k">extends</span> <span class="pl-e">Activity</span> {
 
-    <span class="pl-k">private</span> <span class="pl-smi">GFMinimalNotification</span> minimalNotification;
-
     <span class="pl-k">@Override</span>
     <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onCreate</span>(<span class="pl-smi">Bundle</span> <span class="pl-v">savedInstanceState</span>) {
         <span class="pl-v">super</span><span class="pl-k">.</span>onCreate(savedInstanceState);
         setContentView(<span class="pl-smi">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>activity_main);
 
-        <span class="pl-c">// instantiate with Constructor method</span>
-        minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
-                <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>);
-
-        <span class="pl-c">// instantiate with Builder</span>
-        minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
-                                              .title(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
-                                              .subtitle(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
-                                              .style(<span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>)
-                                              .build();
-    }
-
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Showing the notification from a method</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">show</span>() {
-        minimalNotification<span class="pl-k">.</span>show((<span class="pl-smi">ViewGroup</span>) findViewById(<span class="pl-k">&lt;</span>id_of_your_container_view<span class="pl-k">&gt;</span>)); <span class="pl-c">// Must be ViewGroup</span>
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Showing the notification in the decor view from a method. If dispalyed from the top, this will overlay the actionbar/toolbar</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">showFromDecor</span>() {
-        minimalNotification<span class="pl-k">.</span>show(getWindow()<span class="pl-k">.</span>getDecorView());
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Hiding the notification from a method</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">dismiss</span>() {
-        minimalNotification<span class="pl-k">.</span>dismiss();
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Set the notification to display from the top of the screen</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromTop</span>() {
-        minimalNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_TOP</span>);
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Set the notification to display from the bottom of the screen</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromBottom</span>() {
-        minimalNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_BOTTOM</span>);
+        <span class="pl-c">// passing any view here works. It will find a suitable parent to display this, however, it will be the first ViewGroup</span>
+        <span class="pl-c">// it finds. </span>
+        <span class="pl-smi">GFMinimalNotification</span><span class="pl-k">.</span>make(rootView, <span class="pl-s"><span class="pl-pds">"</span>Some text<span class="pl-pds">"</span></span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>TYPE_DEFAULT</span>)<span class="pl-k">.</span>show();
     }
 }</pre></div>
 
 <h3>
 <a id="constructors--options" class="anchor" href="#constructors--options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Constructors / Options</h3>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">/**</span>
-<span class="pl-c"> * Note: passing a duration of 0 means the notification will NOT be automatically dismissed, you will need to </span>
-<span class="pl-c"> * dismiss the notification yourself by calling dismiss() on the notification object. If you pass a duration </span>
-<span class="pl-c"> * value greater than 0, this will be the length of time the notification will remain visisble before being </span>
-<span class="pl-c"> * automatically dismissed. Examples follow. Please consult the GFMinimalNotification or GFMinimalNotificationLayout class to see all available</span>
-<span class="pl-c"> * constructors/options.</span>
-<span class="pl-c"> */</span>
+<div class="highlight highlight-source-java"><pre>
+<span class="pl-c">// Constructors</span>
+<span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-smi">GFMinimalNotification</span> make(@<span class="pl-smi">NonNull</span> <span class="pl-smi">View</span> view, @<span class="pl-smi">NonNull</span> <span class="pl-smi">CharSequence</span> text,
+                           <span class="pl-k">int</span> duration);
 
-<span class="pl-c">// With duration</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
-                <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
+<span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-smi">GFMinimalNotification</span> make(@<span class="pl-smi">NonNull</span> <span class="pl-smi">View</span> view, <span class="pl-k">int</span> resId, <span class="pl-k">int</span> duration);
 
-<span class="pl-c">// Without duration and with onClick listener</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>(<span class="pl-v">this</span>, <span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>,
-                <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>)
-                .setOnGFMinimalNotificationClickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
-                    <span class="pl-k">@Override</span>
-                    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
-                        notification<span class="pl-k">.</span>dismiss();
-                    }
-                });
+<span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-smi">GFMinimalNotification</span> make(@<span class="pl-smi">NonNull</span> <span class="pl-smi">View</span> view, @<span class="pl-smi">NonNull</span> <span class="pl-smi">CharSequence</span> text,
+                           <span class="pl-k">int</span> duration, <span class="pl-k">int</span> type);
 
-<span class="pl-c">// with Builder</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFMinimalNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
-                                              .title(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
-                                              .subtitle(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
-                                              .style(<span class="pl-smi">GFMinimalNotificationStyle</span><span class="pl-c1"><span class="pl-k">.</span>DEFAULT</span>)
-                                              .clickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
-                                                                  <span class="pl-k">@Override</span>
-                                                                  <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
-                                                                      <span class="pl-c">// dismiss if no duration</span>
-                                                                  }
-                                                              })
-                                              .build();</pre></div>
+<span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-smi">GFMinimalNotification</span> make(@<span class="pl-smi">NonNull</span> <span class="pl-smi">View</span> view, <span class="pl-k">int</span> resId, <span class="pl-k">int</span> duration,
+                           <span class="pl-k">int</span> type);
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">// Available Styles</span>
-<span class="pl-k">public</span> <span class="pl-k">enum</span> <span class="pl-en">GFMinimalNotificationStyle</span> {
-    <span class="pl-c1">DEFAULT</span>,
-    <span class="pl-c1">ERROR</span>,
-    <span class="pl-c1">SUCCESS</span>,
-    <span class="pl-c1">INFO</span>,
-    <span class="pl-c1">WARNING</span>
-}</pre></div>
+<span class="pl-c">// Set the action to be displayed. Doing so removes the action image, if any</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setAction(<span class="pl-k">int</span> resId, <span class="pl-smi">OnActionClickListener</span> listener);
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setAction(<span class="pl-smi">CharSequence</span> text, <span class="pl-smi">OnActionClickListener</span> listener);
 
-<p>Please see the sample project included in this repo for an example of how to use this notification.</p>
+<span class="pl-c">// Sets the text color of the action specified in</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setActionTextColor(<span class="pl-smi">ColorStateList</span> colors);
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setActionTextColor(<span class="pl-k">int</span> color);
+
+<span class="pl-c">// Set the action drawable resource to be displayed. Doing so removes the action text, if any</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setActionImage(<span class="pl-k">int</span> resId, <span class="pl-smi">OnActionClickListener</span> listener);
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setActionImage(<span class="pl-smi">Drawable</span> drawable, <span class="pl-smi">OnActionClickListener</span> listener);
+
+<span class="pl-c">// Set the helper drawable resource to be displayed</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setHelperImage(<span class="pl-k">int</span> resId);
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setHelperImage(<span class="pl-smi">Drawable</span> drawable);
+
+<span class="pl-c">// Update the text of the notification</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setText(<span class="pl-smi">CharSequence</span> message);
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setText(<span class="pl-k">int</span> resId);
+
+<span class="pl-c">// Update the text appearance in the notification</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setTextAppearance(<span class="pl-k">int</span> resId); 
+
+<span class="pl-c">// Update how long the notification is displayed</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setDuration(<span class="pl-k">int</span> duration);
+
+<span class="pl-c">// Set the direction the notification should animate in from. (DIRECTION_TOP or DIRECTION_BOTTOM)</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setDirection(<span class="pl-k">int</span> direction);
+
+<span class="pl-c">// Update the type of notification. (TYPE_DEFAULT, TYPE_ERROR, or TYPE_WARNING)</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setType(<span class="pl-k">int</span> type);
+
+<span class="pl-c">// Set your own background color on the notification</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setCustomBackgroundColor(<span class="pl-k">int</span> customBackgroundColor);
+
+<span class="pl-c">// Set your own tint colors used to tint icons (helper and action)</span>
+<span class="pl-k">public</span> <span class="pl-smi">GFMinimalNotification</span> setCustomIconTintColor(<span class="pl-k">int</span> customIconTintColor);</pre></div>
 
 <h3>
-<a id="undo-notifications" class="anchor" href="#undo-notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Undo Notifications</h3>
+<a id="theming--types" class="anchor" href="#theming--types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Theming / Types</h3>
 
-<p>Want to use the <code>GFMinimalNotification</code> or <code>GFMinimalNotificationLayout</code> to display an undo option? Why not just use the <code>GFUndoNotification</code> or <code>GFUndoNotificationLayout</code> classes! This
-library also includes this and can be used in conjunction with actions that may need an undo option. This notification will
-display at the bottom by default but has the same presentation options as the <code>GFMinimalNotification</code> and <code>GFMinimalNotificationLayout</code> as it extends
-those classes. However, this notification does not use styles. But you may use any of the accessor methods to modify any text or
-background option on the undo notification.</p>
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Apply global theme for default type colors and text appearance</span>
+<span class="pl-k">&lt;</span>style name<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>YourAppTheme<span class="pl-pds">"</span></span> parent<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>Theme.AppCompat<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>
+    <span class="pl-c1">...</span>
 
-<div class="highlight highlight-source-java"><pre><span class="pl-c">/**</span>
-<span class="pl-c"> * Please consult the GFUndoNotification or GFUndoNotificationLayout class to see all available constructors/options.</span>
+    <span class="pl-c">// Overrides the default type background color</span>
+    <span class="pl-k">&lt;</span>item name<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>gf_notification_type_default<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>@color<span class="pl-k">/</span>my_default_color<span class="pl-k">&lt;</span><span class="pl-k">/</span>item<span class="pl-k">&gt;</span>
+
+    <span class="pl-c">// Overrides the error type background color</span>
+    <span class="pl-k">&lt;</span>item name<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>gf_notification_type_error<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>@color<span class="pl-k">/</span>my_error_color<span class="pl-k">&lt;</span><span class="pl-k">/</span>item<span class="pl-k">&gt;</span>
+
+    <span class="pl-c">// Overrides the warning type background color</span>
+    <span class="pl-k">&lt;</span>item name<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>gf_notification_type_warning<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>@color<span class="pl-k">/</span>my_warning_color<span class="pl-k">&lt;</span><span class="pl-k">/</span>item<span class="pl-k">&gt;</span>
+
+    <span class="pl-c">// Set your own text appearance </span>
+    <span class="pl-k">&lt;</span>item name<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>gf_notification_textAppearance<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>@style<span class="pl-k">/</span>my_text_appearance<span class="pl-k">&lt;</span><span class="pl-k">/</span>item<span class="pl-k">&gt;</span>
+
+    <span class="pl-c">// Overrides the default direction to display the notification from</span>
+    <span class="pl-k">&lt;</span>item name<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>gf_notification_direction<span class="pl-pds">"</span></span><span class="pl-k">&gt;</span>top<span class="pl-k">|</span>bottom<span class="pl-k">&lt;</span><span class="pl-k">/</span>item<span class="pl-k">&gt;</span>
+
+<span class="pl-k">&lt;</span><span class="pl-k">/</span>style<span class="pl-k">&gt;</span></pre></div>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Available Types</span>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Show the GFMinimalNotification with the default type settings. This means that the GFMinimalNotification</span>
+<span class="pl-c"> * will be have a default background and text color.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @see #setType</span>
 <span class="pl-c"> */</span>
-<span class="pl-c">// With duration and title only</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
+<span class="pl-c1">TYPE_DEFAULT</span>;
 
-<span class="pl-c">// With duration and title/sub-title</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>, <span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_LONG</span>);
-
-<span class="pl-c">// Without duration and with onClick listener</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>, <span class="pl-c1">0</span>)
-                .setOnGFMinimalNotificationClickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
-                                    <span class="pl-k">@Override</span>
-                                    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
-                                        notification<span class="pl-k">.</span>dismiss();
-                                    }
-                                });
-
-<span class="pl-c">// with Builder</span>
-minimalNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
-                                           .title(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome title<span class="pl-pds">"</span></span>)
-                                           .subtitle(<span class="pl-s"><span class="pl-pds">"</span>This is my awesome sub-title<span class="pl-pds">"</span></span>)
-                                           .clickListener(<span class="pl-k">new</span> <span class="pl-smi">OnGFMinimalNotificationClickListener</span>() {
-                                                               <span class="pl-k">@Override</span>
-                                                               <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">GFMinimalNotification</span> <span class="pl-v">notification</span>) {
-                                                                   <span class="pl-c">// dismiss if no duration</span>
-                                                               }
-                                                           })
-                                           .build();</pre></div>
-
-<h4>
-<a id="basic-undo-example" class="anchor" href="#basic-undo-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Undo Example</h4>
-
-<div class="highlight highlight-source-java"><pre><span class="pl-c">/**</span>
-<span class="pl-c"> * To use the GFUndoNotification, you must follow the same principles as expressed in the above example.</span>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Show the GFMinimalNotification with the error type settings. This means that the GFMinimalNotification</span>
+<span class="pl-c"> * will be have a error background and text color.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @see #setType</span>
 <span class="pl-c"> */</span>
-<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MainActivity</span> <span class="pl-k">extends</span> <span class="pl-e">Activity</span> {
+<span class="pl-c1">TYPE_ERROR</span>;
 
-    <span class="pl-k">private</span> <span class="pl-smi">GFUndoNotification</span> undoNotification;
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Show the GFMinimalNotification with the warning type settings. This means that the GFMinimalNotification</span>
+<span class="pl-c"> * will be have a warning background and text color.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @see #setType</span>
+<span class="pl-c"> */</span>
+<span class="pl-c1">TYPE_WARNING</span>;</pre></div>
 
-    <span class="pl-k">@Override</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onCreate</span>(<span class="pl-smi">Bundle</span> <span class="pl-v">savedInstanceState</span>) {
-        <span class="pl-v">super</span><span class="pl-k">.</span>onCreate(savedInstanceState);
-        setContentView(<span class="pl-smi">R</span><span class="pl-k">.</span>layout<span class="pl-k">.</span>activity_main);
+<div class="highlight highlight-source-java"><pre><span class="pl-c">// Available Directions</span>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Show the notification from the top of the container layout found</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @see #setDirection</span>
+<span class="pl-c"> */</span>
+<span class="pl-c1">DIRECTION_TOP</span>;
 
-        <span class="pl-c">// instantiate with Constructor method</span>
-        undoNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>(<span class="pl-v">this</span>, <span class="pl-s"><span class="pl-pds">"</span>You did something<span class="pl-pds">"</span></span>)
-                .setGFUndoNotificationCallback(<span class="pl-k">new</span> <span class="pl-smi">GFUndoNotificationCallback</span>() {
-                            <span class="pl-k">@Override</span>
-                            <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onUndoAction</span>(<span class="pl-smi">GFUndoNotification</span> <span class="pl-v">notification</span>) {
-                                <span class="pl-c">// undo user performed action</span>
-                            }
-                        });
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Show the notification from the bottom of the container layout found</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @see #setDirection</span>
+<span class="pl-c"> */</span>
+<span class="pl-c1">DIRECTION_BOTTOM</span>;</pre></div>
 
-        <span class="pl-c">// instantiate with Builder</span>
-        undoNotification <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">GFUndoNotification</span>.<span class="pl-smi">Builder</span>(<span class="pl-v">this</span>)
-                                                .title(<span class="pl-s"><span class="pl-pds">"</span>You did something<span class="pl-pds">"</span></span>)
-                                                .undoCallback(<span class="pl-k">new</span> <span class="pl-smi">GFUndoNotificationCallback</span>() {
-                                                                    <span class="pl-k">@Override</span>
-                                                                    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onUndoAction</span>(<span class="pl-smi">GFUndoNotification</span> <span class="pl-v">notification</span>) {
-                                                                        <span class="pl-c">// undo user performed action</span>
-                                                                    }
-                                                                })
-                                                .build();
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Showing the undo notification from a method</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">show</span>() {
-        undoNotification<span class="pl-k">.</span>show((<span class="pl-smi">ViewGroup</span>) findViewById(<span class="pl-k">&lt;</span>id_of_your_container_view<span class="pl-k">&gt;</span>)); <span class="pl-c">// Must be ViewGroup</span>
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Showing the undo notification in the decor view from a method. If displayed from the top, this will overlay the actionbar/toolbar</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">showFromDecor</span>() {
-        undoNotification<span class="pl-k">.</span>show(getWindow()<span class="pl-k">.</span>getDecorView());
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Hiding the undo notification from a method</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">dismiss</span>() {
-        undoNotification<span class="pl-k">.</span>dismiss();
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Set the notification to display from the top of the screen</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromTop</span>() {
-        undoNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_TOP</span>);
-    }
-
-    <span class="pl-c">/**</span>
-<span class="pl-c">     * Set the notification to display from the bottom of the screen</span>
-<span class="pl-c">     */</span>
-    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">setDisplayFromBottom</span>() {
-        undoNotification<span class="pl-k">.</span>setSlideDirection(<span class="pl-smi">GFMinimalNotification</span><span class="pl-c1"><span class="pl-k">.</span>SLIDE_BOTTOM</span>);
-    }
-}</pre></div>
+<p>Please see the sample project included in this repo for an example of how to use this notification.</p>
 
 <h2>
 <a id="callback-methods" class="anchor" href="#callback-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Callback Methods:</h2>
 
-<pre><code>/**
- * GFMinimalNotificationCallback
- */
-void didShowNotification(GFMinimalNotification notification);
-void didDismissNotification(GFMinimalNotification notification);
+<div class="highlight highlight-source-java"><pre><span class="pl-c">/************</span>
+<span class="pl-c"> * Callback *</span>
+<span class="pl-c"> ************/</span>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Called when the given {@link GFMinimalNotification} is visible.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @param notification The notification which is now visible.</span>
+<span class="pl-c"> * @see GFMinimalNotification#show()</span>
+<span class="pl-c"> */</span>
+<span class="pl-k">void</span> onShown(<span class="pl-smi">GFMinimalNotification</span> notification) 
 
-/**
- * GFUndoNotificationCallback
- */
-void onUndoAction(GFUndoNotification notification);
-</code></pre>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Called when the given {@link GFMinimalNotification} has been dismissed, either through a time-out,</span>
+<span class="pl-c"> * having been manually dismissed, or an action being clicked.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @param notification The notification which has been dismissed.</span>
+<span class="pl-c"> * @param event The event which caused the dismissal. One of either:</span>
+<span class="pl-c"> *              {@link #DISMISS_EVENT_SWIPE}, {@link #DISMISS_EVENT_ACTION},</span>
+<span class="pl-c"> *              {@link #DISMISS_EVENT_TIMEOUT}, {@link #DISMISS_EVENT_MANUAL} or</span>
+<span class="pl-c"> *              {@link #DISMISS_EVENT_CONSECUTIVE}.</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @see GFMinimalNotification#dismiss()</span>
+<span class="pl-c"> */</span>
+<span class="pl-k">void</span> onDismissed(<span class="pl-smi">GFMinimalNotification</span> notification, @<span class="pl-smi">GFMinimalNotification</span><span class="pl-k">.</span><span class="pl-smi">Callback</span><span class="pl-k">.</span><span class="pl-smi">DismissEvent</span> <span class="pl-k">int</span> event)
+
+
+<span class="pl-c">/*************************</span>
+<span class="pl-c"> * OnActionClickListener *</span>
+<span class="pl-c"> *************************/</span>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * Called when the given {@link GFMinimalNotification} action view (text or image) has been clicked.</span>
+<span class="pl-c"> * Will dismiss if returned true</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @param notification The notification which has received the action click (text or image)</span>
+<span class="pl-c"> * @return true if you wish to dismiss the notification immediately or false to allow it to dismiss normally</span>
+<span class="pl-c"> */</span>
+<span class="pl-k">boolean</span> onActionClick(<span class="pl-smi">GFMinimalNotification</span> notification)</pre></div>
+
+<h2>
+<a id="features-coming" class="anchor" href="#features-coming" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features Coming:</h2>
+
+<ul>
+<li>Set title and/or subtitle message</li>
+<li>Additional TYPEs (i.e. Success, Info - removed for v2). There is no intention to bring those back, but additional ones may be added. </li>
+</ul>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation:</h2>
@@ -283,7 +254,7 @@ void onUndoAction(GFUndoNotification notification);
 <li>
 <p>Follow these steps to include aar binary in your project:</p>
 
-<p>1: Copy com.github.gfranks.minimal.notification-1.0.aar into your projects libs/ directory.</p>
+<p>1: Copy com.github.gfranks.minimal.notification-2.0.aar into your projects libs/ directory.</p>
 
 <p>2: Include the following either in your top level build.gradle file or your module specific one:</p>
 
@@ -295,7 +266,9 @@ void onUndoAction(GFUndoNotification notification);
 </code></pre>
 
 <p>3: Under your dependencies for your main module's build.gradle file, you can reference that aar file like so: 
-<code>compile 'com.github.gfranks.minimal.notification:com.github.gfranks.minimal.notification-1.0@aar'</code></p>
+<code>compile 'com.github.gfranks.minimal.notification:com.github.gfranks.minimal.notification-2.0@aar'</code></p>
+
+<p>(NOTE: v1 is still available, if you wish to continue using it. Follow the same binary approach but reference 1.0@aar)</p>
 </li>
 </ul>
 
@@ -321,16 +294,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.</p>
+      </section>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/gfranks/GFMinimalNotifications">Gfminimalnotifications</a> is maintained by <a href="https://github.com/gfranks">gfranks</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
-
-    </section>
-
-            <script type="text/javascript">
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
