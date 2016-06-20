@@ -2,370 +2,230 @@ package com.github.gfranks.minimal.notification;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class GFMinimalNotificationLayout extends FrameLayout {
+class GFMinimalNotificationLayout extends LinearLayout {
 
-    protected GFMinimalNotification mNotification;
+    private ImageView mHelperImageView;
+    private TextView mMessageView;
+    private Button mActionTextView;
+    private ImageButton mActionImageView;
+
+    private int mMaxWidth;
+    private int mMaxInlineActionWidth;
+
+    interface OnLayoutChangeListener {
+        void onLayoutChange(View view, int left, int top, int right, int bottom);
+    }
+
+    interface OnAttachStateChangeListener {
+        void onViewAttachedToWindow(View v);
+        void onViewDetachedFromWindow(View v);
+    }
+
+    private OnLayoutChangeListener mOnLayoutChangeListener;
+    private OnAttachStateChangeListener mOnAttachStateChangeListener;
 
     public GFMinimalNotificationLayout(Context context) {
-        super(context);
-        initNotification(context);
+        this(context, null);
     }
 
     public GFMinimalNotificationLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initNotification(context);
-        init(context, attrs, 0);
-    }
-
-    public GFMinimalNotificationLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        initNotification(context);
-        init(context, attrs, defStyleAttr);
-    }
-
-    public GFMinimalNotification getNotification() {
-        return mNotification;
-    }
-
-    /**
-     * @param notification The desired notification to show
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setNotification(GFMinimalNotification notification) {
-        mNotification = notification;
-        return this;
-    }
-
-    protected void initNotification(Context context) {
-        mNotification = new GFMinimalNotification(context);
-    }
-
-    protected void init(Context context, AttributeSet attrs, int defStyle) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GFMinimalNotificationLayout, defStyle, 0);
-        String titleText = a.getString(R.styleable.GFMinimalNotificationLayout_title_text);
-        String subtitleText = a.getString(R.styleable.GFMinimalNotificationLayout_subtitle_text);
-        int leftViewRes = a.getInt(R.styleable.GFMinimalNotificationLayout_left_layout, -1);
-        int rightViewRes = a.getInt(R.styleable.GFMinimalNotificationLayout_right_layout, -1);
-        int style = a.getInt(R.styleable.GFMinimalNotificationLayout_style, GFMinimalNotificationStyle.DEFAULT.ordinal());
-        int slideDirection = a.getInt(R.styleable.GFMinimalNotificationLayout_display, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.GFMinimalNotificationLayout);
+        mMaxWidth = a.getDimensionPixelSize(R.styleable.GFMinimalNotificationLayout_android_maxWidth, -1);
+        mMaxInlineActionWidth = a.getDimensionPixelSize(
+                R.styleable.GFMinimalNotificationLayout_gf_notification_maxActionInlineWidth, -1);
+        if (a.hasValue(R.styleable.GFMinimalNotificationLayout_elevation)) {
+            ViewCompat.setElevation(this, a.getDimensionPixelSize(
+                    R.styleable.GFMinimalNotificationLayout_elevation, 0));
+        }
         a.recycle();
 
-        View leftView = null;
-        View rightView = null;
-        try {
-            leftView = inflate(context, leftViewRes, null);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            // error inflating left view
-        }
+        setClickable(true);
 
-        try {
-            rightView = inflate(context, rightViewRes, null);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            // error inflating right view
-        }
+        // Now inflate our content. We need to do this manually rather than using an <include>
+        // in the layout since older versions of the Android do not inflate includes with
+        // the correct Context.
+        LayoutInflater.from(context).inflate(R.layout.layout_minimal_notification_include, this);
 
-        mNotification.setStyle(GFMinimalNotificationStyle.values()[style]);
-        mNotification.setTitleText(titleText);
-        mNotification.setSubtitleText(subtitleText);
-        if (leftView != null) {
-            mNotification.setLeftView(leftView);
-        }
-        if (rightView != null) {
-            mNotification.setRightView(rightView);
-        }
-        mNotification.setSlideDirection(slideDirection);
+        ViewCompat.setAccessibilityLiveRegion(this,
+                ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE);
+        ViewCompat.setImportantForAccessibility(this,
+                ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
     }
 
-    /**
-     * @param builder Builder to build the notification with
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout createNotificationFromBuilder(GFMinimalNotification.Builder builder) {
-        if (mNotification.isShowing()) {
-            mNotification.updateFromBuilder(builder);
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        mHelperImageView = (ImageView) findViewById(R.id.notification_helper_image);
+        mMessageView = (TextView) findViewById(R.id.notification_text);
+        mActionTextView = (Button) findViewById(R.id.notification_action_text);
+        mActionImageView = (ImageButton) findViewById(R.id.notification_action_image);
+    }
+
+    ImageView getHelperImageView() {
+        return mHelperImageView;
+    }
+
+    TextView getMessageView() {
+        return mMessageView;
+    }
+
+    Button getActionTextView() {
+        return mActionTextView;
+    }
+
+    ImageButton getActionImageView() {
+        return mActionImageView;
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        if (mMaxWidth > 0 && getMeasuredWidth() > mMaxWidth) {
+            widthMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxWidth, MeasureSpec.EXACTLY);
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
+
+        float density = getResources().getDisplayMetrics().density;
+        final int multiLineVPadding = (int) (24f * density);
+        final int singleLineVPadding = (int) (14f * density);
+        final boolean isMultiLine = mMessageView.getLayout().getLineCount() > 1;
+
+        boolean remeasure = false;
+        if (isMultiLine && mMaxInlineActionWidth > 0
+                && mHelperImageView.getMeasuredWidth() > mMaxInlineActionWidth
+                && (mActionTextView.getMeasuredWidth() > mMaxInlineActionWidth
+                || mActionImageView.getMeasuredWidth() > mMaxInlineActionWidth)) {
+            if (updateViewsWithinLayout(VERTICAL, multiLineVPadding,
+                    multiLineVPadding - singleLineVPadding)) {
+                remeasure = true;
+            }
         } else {
-            mNotification = new GFMinimalNotification(builder);
+            final int messagePadding = isMultiLine ? multiLineVPadding : singleLineVPadding;
+            if (updateViewsWithinLayout(HORIZONTAL, messagePadding, messagePadding)) {
+                remeasure = true;
+            }
         }
-        return this;
+
+        if (remeasure) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
     }
 
-    /**
-     * @param callback The desired callback to be fired when the notification is shown or dismissed
-     * @return GFMinimalNotification
-     */
-    public GFMinimalNotificationLayout setGFMinimalNotificationCallback(GFMinimalNotificationCallback callback) {
-        mNotification.setGFMinimalNotificationCallback(callback);
-        return this;
+    void animateChildrenIn(int delay, int duration) {
+        ViewCompat.setAlpha(mMessageView, 0f);
+        ViewCompat.animate(mMessageView).alpha(1f).setDuration(duration)
+                .setStartDelay(delay).start();
+
+        if (mHelperImageView.getVisibility() == VISIBLE) {
+            ViewCompat.setAlpha(mHelperImageView, 0f);
+            ViewCompat.animate(mHelperImageView).alpha(1f).setDuration(duration)
+                    .setStartDelay(delay).start();
+        }
+
+        if (mActionTextView.getVisibility() == VISIBLE) {
+            ViewCompat.setAlpha(mActionTextView, 0f);
+            ViewCompat.animate(mActionTextView).alpha(1f).setDuration(duration)
+                    .setStartDelay(delay).start();
+        }
+
+        if (mActionImageView.getVisibility() == VISIBLE) {
+            ViewCompat.setAlpha(mActionImageView, 0f);
+            ViewCompat.animate(mActionImageView).alpha(1f).setDuration(duration)
+                    .setStartDelay(delay).start();
+        }
     }
 
-    /**
-     * @param onGFMinimalNotificationClickListener The desired click listener to be fired when the notification is clicked
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setOnGFMinimalNotificationClickListener(OnGFMinimalNotificationClickListener onGFMinimalNotificationClickListener) {
-        mNotification.setOnGFMinimalNotificationClickListener(onGFMinimalNotificationClickListener);
-        return this;
+    void animateChildrenOut(int delay, int duration) {
+        ViewCompat.setAlpha(mMessageView, 1f);
+        ViewCompat.animate(mMessageView).alpha(0f).setDuration(duration)
+                .setStartDelay(delay).start();
+
+        if (mHelperImageView.getVisibility() == VISIBLE) {
+            ViewCompat.setAlpha(mHelperImageView, 1f);
+            ViewCompat.animate(mHelperImageView).alpha(0f).setDuration(duration)
+                    .setStartDelay(delay).start();
+        }
+
+        if (mActionTextView.getVisibility() == VISIBLE) {
+            ViewCompat.setAlpha(mActionTextView, 1f);
+            ViewCompat.animate(mActionTextView).alpha(0f).setDuration(duration)
+                    .setStartDelay(delay).start();
+        }
+
+        if (mActionImageView.getVisibility() == VISIBLE) {
+            ViewCompat.setAlpha(mActionImageView, 1f);
+            ViewCompat.animate(mActionImageView).alpha(0f).setDuration(duration)
+                    .setStartDelay(delay).start();
+        }
     }
 
-    /**
-     * @param duration The desired duration before dismissing the notification
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setDuration(long duration) {
-        mNotification.setDuration(duration);
-        return this;
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        if (mOnLayoutChangeListener != null) {
+            mOnLayoutChangeListener.onLayoutChange(this, l, t, r, b);
+        }
     }
 
-    /**
-     * @param animationDuration The desired animation duration when showing and dismissing
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setAnimationDuration(long animationDuration) {
-        mNotification.setAnimationDuration(animationDuration);
-        return this;
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (mOnAttachStateChangeListener != null) {
+            mOnAttachStateChangeListener.onViewAttachedToWindow(this);
+        }
     }
 
-    /**
-     * @param style The desired GFMinimalNotificationStyle
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setStyle(GFMinimalNotificationStyle style) {
-        mNotification.setStyle(style);
-        return this;
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mOnAttachStateChangeListener != null) {
+            mOnAttachStateChangeListener.onViewDetachedFromWindow(this);
+        }
     }
 
-    /**
-     * @param title The desired text to be displayed as the title
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setTitleText(String title) {
-        mNotification.setTitleText(title);
-        return this;
+    void setOnLayoutChangeListener(OnLayoutChangeListener onLayoutChangeListener) {
+        mOnLayoutChangeListener = onLayoutChangeListener;
     }
 
-    /**
-     * @param tf    The desired Typeface to be set as the title font
-     * @param style The desired style to be set as the title style
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setTitleFont(Typeface tf, int style) {
-        mNotification.setTitleFont(tf, style);
-        return this;
+    void setOnAttachStateChangeListener(OnAttachStateChangeListener listener) {
+        mOnAttachStateChangeListener = listener;
     }
 
-    /**
-     * @param style The desired style to be set as the title style
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setTitleFont(int style) {
-        mNotification.setTitleFont(style);
-        return this;
+    private boolean updateViewsWithinLayout(final int orientation,
+                                            final int messagePadTop, final int messagePadBottom) {
+        boolean changed = false;
+        if (orientation != getOrientation()) {
+            setOrientation(orientation);
+            changed = true;
+        }
+        if (mMessageView.getPaddingTop() != messagePadTop
+                || mMessageView.getPaddingBottom() != messagePadBottom) {
+            updateTopBottomPadding(mMessageView, messagePadTop, messagePadBottom);
+            changed = true;
+        }
+        return changed;
     }
 
-    /**
-     * @param color The desired color to bet set as the title text color
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setTitleTextColor(int color) {
-        mNotification.setTitleTextColor(color);
-        return this;
-    }
-
-    /**
-     * @param size The desired text size to be set as the title text size
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setTitleTextSize(float size) {
-        mNotification.setTitleTextSize(size);
-        return this;
-    }
-
-    /**
-     * @param subtitle The desired text to be displayed as the title
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setSubtitleText(String subtitle) {
-        mNotification.setSubtitleText(subtitle);
-        return this;
-    }
-
-    /**
-     * @param tf    The desired Typeface to be set as the subtitle font
-     * @param style The desired style to be set as the subtitle style
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setSubtitleFont(Typeface tf, int style) {
-        mNotification.setSubtitleFont(tf, style);
-        return this;
-    }
-
-    /**
-     * @param style The desired style to be set as the subtitle style
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setSubtitleFont(int style) {
-        mNotification.setSubtitleFont(style);
-        return this;
-    }
-
-    /**
-     * @param color The desired color to bet set as the subtitle text color
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setSubtitleTextColor(int color) {
-        mNotification.setSubtitleTextColor(color);
-        return this;
-    }
-
-    /**
-     * @param size The desired text size to be set as the subtitle text size
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setSubtitleTextSize(float size) {
-        mNotification.setSubtitleTextSize(size);
-        return this;
-    }
-
-    /**
-     * @param imageResId The desired image resource to be set as the left image view if not replaced
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setLeftImageResource(int imageResId) {
-        mNotification.setLeftImageResource(imageResId);
-        return this;
-    }
-
-    /**
-     * @param drawable The desired drawable to be set as the left image view if not replaced
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setLeftImageDrawable(Drawable drawable) {
-        mNotification.setLeftImageDrawable(drawable);
-        return this;
-    }
-
-    /**
-     * @param visible Set the left view visible or not
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setLeftImageVisible(boolean visible) {
-        mNotification.setLeftImageVisible(visible);
-        return this;
-    }
-
-    /**
-     * @return Left view of the notification
-     */
-    public View getLeftView() {
-        return mNotification.getLeftView();
-    }
-
-    /**
-     * NOTE: There is a height constraint of 65dp on this view
-     *
-     * @param view The desired view to replace the current left view
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setLeftView(View view) {
-        mNotification.setLeftView(view);
-        return this;
-    }
-
-    /**
-     * @param imageResId The desired image resource to be set as the right view if not replaced
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setRightImageResource(int imageResId) {
-        mNotification.setRightImageResource(imageResId);
-        return this;
-    }
-
-    /**
-     * @param drawable The desired drawable to be set as the right view if not replaced
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setRightImageDrawable(Drawable drawable) {
-        mNotification.setRightImageDrawable(drawable);
-        return this;
-    }
-
-    /**
-     * @param visible Set the right view visible or not
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setRightImageVisible(boolean visible) {
-        mNotification.setRightImageVisible(visible);
-        return this;
-    }
-
-    /**
-     * @return Right view of the notification
-     */
-    public View getRightView() {
-        return mNotification.getRightView();
-    }
-
-    /**
-     * NOTE: There is a height constraint of 65dp on this view
-     *
-     * @param view The desired view to replace the current right view
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setRightView(View view) {
-        mNotification.setRightView(view);
-        return this;
-    }
-
-    /**
-     * @param color The desired background color to be set as notification background
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setNotificationBackgroundColor(int color) {
-        mNotification.setNotificationBackgroundColor(color);
-        return this;
-    }
-
-    /**
-     * @param drawableResId The desired drawable resource to be set as notification background
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setNotificationBackgroundResource(int drawableResId) {
-        mNotification.setNotificationBackgroundResource(drawableResId);
-        return this;
-    }
-
-    /**
-     * @param drawable The desired drawable to be set as notification background
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setNotificationBackground(Drawable drawable) {
-        mNotification.setNotificationBackground(drawable);
-        return this;
-    }
-
-    /**
-     * Set the notification slide direction (SLIDE_TOP or SLIDE_BOTTOM)
-     *
-     * @return GFMinimalNotificationLayout
-     */
-    public GFMinimalNotificationLayout setSlideDirection(int slideDirection) {
-        mNotification.setSlideDirection(slideDirection);
-        return this;
-    }
-
-    public void show() {
-        mNotification.show(this);
-    }
-
-    public void dismiss() {
-        mNotification.dismiss();
+    private static void updateTopBottomPadding(View view, int topPadding, int bottomPadding) {
+        if (ViewCompat.isPaddingRelative(view)) {
+            ViewCompat.setPaddingRelative(view,
+                    ViewCompat.getPaddingStart(view), topPadding,
+                    ViewCompat.getPaddingEnd(view), bottomPadding);
+        } else {
+            view.setPadding(view.getPaddingLeft(), topPadding,
+                    view.getPaddingRight(), bottomPadding);
+        }
     }
 }

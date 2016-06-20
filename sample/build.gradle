@@ -2,15 +2,23 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.github.gf.minimal.notifications.sample"
+        applicationId "com.github.gfranks.minimal.notifications.sample"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        generatedDensities = []
     }
+
+    // TODO: if you update to gradle 2.0+ you will have to remove 'generatedDensities' above and this block and replace with
+    // TODO: 'vectorDrawables.useSupportLibrary = true'
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,6 +29,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':library')
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#5065A0</color>
-    <color name="blue_dark">#394985</color>
+    <color name="blue">#2196F3</color>
+    <color name="blue_dark">#1976D2</color>
     <color name="gray">#757575</color>
     <color name="gray_dark">#505050</color>
     <color name="gray_light">#DEDEDE</color>
-    <color name="green">#2FCC6F</color>
-    <color name="green_dark">#31B85D</color>
+    <color name="green">#4CAF50</color>
+    <color name="green_dark">#2E7D32</color>
     <color name="orange">#E57E22</color>
     <color name="orange_dark">#CE6424</color>
     <color name="red">#E84D3B</color>

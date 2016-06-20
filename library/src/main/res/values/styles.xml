@@ -1,8 +1,14 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="">
-        <!-- Customize your theme here. -->
+    <style name="GFMinimalNotificationStyle">
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="android:minWidth">-1px</item>
+        <item name="android:maxWidth">-1px</item>
+        <item name="android:background">#323232</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="elevation">6dp</item>
+        <item name="gf_notification_maxActionInlineWidth">128dp</item>
     </style>
 
 </resources>
