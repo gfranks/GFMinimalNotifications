@@ -13,6 +13,12 @@ What It Looks Like:
 
 ![Examples](/resources/screenshot_error.png?raw=true) ![Examples](/resources/screenshot_default.png?raw=true) ![Examples](/resources/screenshot_warning.png?raw=true)
 
+### Update 2.1
+This notification can now use a custom view to be shown within the notification. Padding is already applied to the container,
+so you may ignore this in your custom layouts. If you set a background color/drawable on the custom view, you will see an alpha change
+affect this and the bounds will make it appear oddly. To mediate this, please use the `setCustomBackgroundColor(int)` method to apply your
+own color.
+
 How To Use It:
 -------------
 
@@ -39,16 +45,22 @@ public class MainActivity extends Activity {
 ```java
 
 // Constructors
-public static GFMinimalNotification make(@NonNull View view, @NonNull CharSequence text,
+public static GFMinimalNotification make(View view);
+
+public static GFMinimalNotification make(View view, CharSequence text,
                            int duration);
    
-public static GFMinimalNotification make(@NonNull View view, int resId, int duration);
+public static GFMinimalNotification make(View view, int resId, int duration);
 
-public static GFMinimalNotification make(@NonNull View view, @NonNull CharSequence text,
+public static GFMinimalNotification make(View view, CharSequence text,
                            int duration, int type);
                                          
-public static GFMinimalNotification make(@NonNull View view, int resId, int duration,
+public static GFMinimalNotification make(View view, int resId, int duration,
                            int type);
+
+public static GFMinimalNotification make(View view, int customViewResId);
+
+public static GFMinimalNotification make(View view, View customView);
                                           
 // Set the action to be displayed. Doing so removes the action image, if any
 public GFMinimalNotification setAction(int resId, OnActionClickListener listener);
@@ -71,7 +83,11 @@ public GFMinimalNotification setText(CharSequence message);
 public GFMinimalNotification setText(int resId);
 
 // Update the text appearance in the notification
-public GFMinimalNotification setTextAppearance(int resId); 
+public GFMinimalNotification setTextAppearance(int resId);
+
+// Supply your own custom view to be shown in the notification
+public GFMinimalNotification setCustomView(int customViewResId);
+public GFMinimalNotification setCustomView(View customView);
 
 // Update how long the notification is displayed
 public GFMinimalNotification setDuration(int duration);
@@ -200,12 +216,13 @@ void onDismissed(GFMinimalNotification notification, @GFMinimalNotification.Call
  * @return true if you wish to dismiss the notification immediately or false to allow it to dismiss normally
  */
 boolean onActionClick(GFMinimalNotification notification)
+
+(NOTE: If you supply a custom view, do not expect to receive this callback as this view and it's listener will have been removed)
 ```
 
 Features Coming:
 ------------
 
-- Set title and/or subtitle message
 - Additional TYPEs (i.e. Success, Info - removed for v2). There is no intention to bring those back, but additional ones may be added. 
 
 Installation:
@@ -219,7 +236,7 @@ Installation:
 
 - Follow these steps to include aar binary in your project:
 
-    1: Copy com.github.gfranks.minimal.notification-2.0.aar into your projects libs/ directory.
+    1: Copy com.github.gfranks.minimal.notification-2.1.aar into your projects libs/ directory.
 
     2: Include the following either in your top level build.gradle file or your module specific one:
     ```
@@ -230,9 +247,9 @@ Installation:
      }
     ```
     3: Under your dependencies for your main module's build.gradle file, you can reference that aar file like so: 
-    ```compile 'com.github.gfranks.minimal.notification:com.github.gfranks.minimal.notification-2.0@aar'```
+    ```compile 'com.github.gfranks.minimal.notification:com.github.gfranks.minimal.notification-2.1@aar'```
     
-    (NOTE: v1 is still available, if you wish to continue using it. Follow the same binary approach but reference 1.0@aar)
+    (NOTE: v1.0 and v2.0 are still available, if you wish to continue using it. Follow the same binary approach but reference 1.0@aar or 2.0@aar)
 
 License
 -------

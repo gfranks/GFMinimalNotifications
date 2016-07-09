@@ -22,6 +22,7 @@
     <string name="use_remove_action_text">Use or remove action text:\n(Note: doing so removes the right action image, if one is set)</string>
     <string name="use_action_text">Use action text</string>
     <string name="remove_action_text">Remove action text</string>
+    <string name="use_custom_view">Show with custom view</string>
 
     <string name="type_error">Error</string>
     <string name="type_default">Default</string>

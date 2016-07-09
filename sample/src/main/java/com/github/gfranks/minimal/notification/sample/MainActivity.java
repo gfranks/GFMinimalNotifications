@@ -1,12 +1,9 @@
 package com.github.gfranks.minimal.notification.sample;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,24 +51,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_fragment_sample) {
-            startActivity(new Intent(this, MainFragmentActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @OnClick({R.id.sample_show, R.id.sample_show_no_duration, R.id.sample_dismiss, R.id.sample_slide_from_top, R.id.sample_slide_from_bottom,
               R.id.sample_type_error, R.id.sample_type_default, R.id.sample_type_warning, R.id.sample_set_left_view,
-              R.id.sample_remove_left_view, R.id.sample_set_right_view, R.id.sample_remove_right_view, R.id.sample_use_action_text})
+              R.id.sample_remove_left_view, R.id.sample_set_right_view, R.id.sample_remove_right_view, R.id.sample_use_action_text,
+              R.id.sample_use_custom_view})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sample_show:
@@ -187,6 +170,18 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mUseActionTextButton.setText(R.string.use_action_text);
                 }
+                break;
+            case R.id.sample_use_custom_view:
+                mCurrentNotification = GFMinimalNotification.make(mCoordinatorLayout, R.layout.layout_custom_view);
+                mCurrentNotification.setDirection(mDirection);
+                mCurrentNotification.setType(mType);
+                mCurrentNotification.getView().findViewById(R.id.close_custom_view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCurrentNotification.dismiss();
+                    }
+                });
+                mCurrentNotification.show();
                 break;
         }
     }

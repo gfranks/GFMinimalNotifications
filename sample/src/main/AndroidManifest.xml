@@ -18,10 +18,6 @@
 
         </activity>
 
-        <activity
-            android:name=".MainFragmentActivity"
-            android:label="@string/fragment_activity_name" />
-
     </application>
 
 </manifest>

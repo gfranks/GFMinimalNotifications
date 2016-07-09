@@ -2,6 +2,7 @@ package com.github.gfranks.minimal.notification;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.LayoutRes;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ class GFMinimalNotificationLayout extends LinearLayout {
 
     private int mMaxWidth;
     private int mMaxInlineActionWidth;
+    private boolean mHasCustomView;
 
     interface OnLayoutChangeListener {
         void onLayoutChange(View view, int left, int top, int right, int bottom);
@@ -52,9 +54,6 @@ class GFMinimalNotificationLayout extends LinearLayout {
 
         setClickable(true);
 
-        // Now inflate our content. We need to do this manually rather than using an <include>
-        // in the layout since older versions of the Android do not inflate includes with
-        // the correct Context.
         LayoutInflater.from(context).inflate(R.layout.layout_minimal_notification_include, this);
 
         ViewCompat.setAccessibilityLiveRegion(this,
@@ -66,10 +65,12 @@ class GFMinimalNotificationLayout extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mHelperImageView = (ImageView) findViewById(R.id.notification_helper_image);
-        mMessageView = (TextView) findViewById(R.id.notification_text);
-        mActionTextView = (Button) findViewById(R.id.notification_action_text);
-        mActionImageView = (ImageButton) findViewById(R.id.notification_action_image);
+        if (!mHasCustomView) {
+            mHelperImageView = (ImageView) findViewById(R.id.notification_helper_image);
+            mMessageView = (TextView) findViewById(R.id.notification_text);
+            mActionTextView = (Button) findViewById(R.id.notification_action_text);
+            mActionImageView = (ImageButton) findViewById(R.id.notification_action_image);
+        }
     }
 
     ImageView getHelperImageView() {
@@ -88,6 +89,23 @@ class GFMinimalNotificationLayout extends LinearLayout {
         return mActionImageView;
     }
 
+    void updateWithCustomView(@LayoutRes int customViewResId) {
+        mHasCustomView = true;
+        removeAllViews();
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        inflater.inflate(customViewResId, this);
+    }
+
+    void updateWithCustomView(View customView) {
+        mHasCustomView = true;
+        removeAllViews();
+        addView(customView);
+    }
+
+    boolean hasCustomView() {
+        return mHasCustomView;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -97,24 +115,30 @@ class GFMinimalNotificationLayout extends LinearLayout {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
 
+        boolean remeasure = false;
         float density = getResources().getDisplayMetrics().density;
         final int multiLineVPadding = (int) (24f * density);
         final int singleLineVPadding = (int) (14f * density);
-        final boolean isMultiLine = mMessageView.getLayout().getLineCount() > 1;
-
-        boolean remeasure = false;
-        if (isMultiLine && mMaxInlineActionWidth > 0
-                && mHelperImageView.getMeasuredWidth() > mMaxInlineActionWidth
-                && (mActionTextView.getMeasuredWidth() > mMaxInlineActionWidth
-                || mActionImageView.getMeasuredWidth() > mMaxInlineActionWidth)) {
+        if (mHasCustomView) {
             if (updateViewsWithinLayout(VERTICAL, multiLineVPadding,
                     multiLineVPadding - singleLineVPadding)) {
                 remeasure = true;
             }
         } else {
-            final int messagePadding = isMultiLine ? multiLineVPadding : singleLineVPadding;
-            if (updateViewsWithinLayout(HORIZONTAL, messagePadding, messagePadding)) {
-                remeasure = true;
+            final boolean isMultiLine = mMessageView.getLayout().getLineCount() > 1;
+            if (isMultiLine && mMaxInlineActionWidth > 0
+                    && mHelperImageView.getMeasuredWidth() > mMaxInlineActionWidth
+                    && (mActionTextView.getMeasuredWidth() > mMaxInlineActionWidth
+                    || mActionImageView.getMeasuredWidth() > mMaxInlineActionWidth)) {
+                if (updateViewsWithinLayout(VERTICAL, multiLineVPadding,
+                        multiLineVPadding - singleLineVPadding)) {
+                    remeasure = true;
+                }
+            } else {
+                final int messagePadding = isMultiLine ? multiLineVPadding : singleLineVPadding;
+                if (updateViewsWithinLayout(HORIZONTAL, messagePadding, messagePadding)) {
+                    remeasure = true;
+                }
             }
         }
 
@@ -124,50 +148,70 @@ class GFMinimalNotificationLayout extends LinearLayout {
     }
 
     void animateChildrenIn(int delay, int duration) {
-        ViewCompat.setAlpha(mMessageView, 0f);
-        ViewCompat.animate(mMessageView).alpha(1f).setDuration(duration)
-                .setStartDelay(delay).start();
-
-        if (mHelperImageView.getVisibility() == VISIBLE) {
-            ViewCompat.setAlpha(mHelperImageView, 0f);
-            ViewCompat.animate(mHelperImageView).alpha(1f).setDuration(duration)
+        if (mHasCustomView) {
+            try {
+                ViewCompat.setAlpha(getChildAt(0), 0f);
+                ViewCompat.animate(getChildAt(0)).alpha(1f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            } catch (Throwable t) {
+                // no children to animate
+            }
+        } else {
+            ViewCompat.setAlpha(mMessageView, 0f);
+            ViewCompat.animate(mMessageView).alpha(1f).setDuration(duration)
                     .setStartDelay(delay).start();
-        }
 
-        if (mActionTextView.getVisibility() == VISIBLE) {
-            ViewCompat.setAlpha(mActionTextView, 0f);
-            ViewCompat.animate(mActionTextView).alpha(1f).setDuration(duration)
-                    .setStartDelay(delay).start();
-        }
+            if (mHelperImageView.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mHelperImageView, 0f);
+                ViewCompat.animate(mHelperImageView).alpha(1f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            }
 
-        if (mActionImageView.getVisibility() == VISIBLE) {
-            ViewCompat.setAlpha(mActionImageView, 0f);
-            ViewCompat.animate(mActionImageView).alpha(1f).setDuration(duration)
-                    .setStartDelay(delay).start();
+            if (mActionTextView.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mActionTextView, 0f);
+                ViewCompat.animate(mActionTextView).alpha(1f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            }
+
+            if (mActionImageView.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mActionImageView, 0f);
+                ViewCompat.animate(mActionImageView).alpha(1f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            }
         }
     }
 
     void animateChildrenOut(int delay, int duration) {
-        ViewCompat.setAlpha(mMessageView, 1f);
-        ViewCompat.animate(mMessageView).alpha(0f).setDuration(duration)
-                .setStartDelay(delay).start();
-
-        if (mHelperImageView.getVisibility() == VISIBLE) {
-            ViewCompat.setAlpha(mHelperImageView, 1f);
-            ViewCompat.animate(mHelperImageView).alpha(0f).setDuration(duration)
+        if (mHasCustomView) {
+            try {
+                ViewCompat.setAlpha(getChildAt(0), 1f);
+                ViewCompat.animate(getChildAt(0)).alpha(0f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            } catch (Throwable t) {
+                // no children to animate
+            }
+        } else {
+            ViewCompat.setAlpha(mMessageView, 1f);
+            ViewCompat.animate(mMessageView).alpha(0f).setDuration(duration)
                     .setStartDelay(delay).start();
-        }
 
-        if (mActionTextView.getVisibility() == VISIBLE) {
-            ViewCompat.setAlpha(mActionTextView, 1f);
-            ViewCompat.animate(mActionTextView).alpha(0f).setDuration(duration)
-                    .setStartDelay(delay).start();
-        }
+            if (mHelperImageView.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mHelperImageView, 1f);
+                ViewCompat.animate(mHelperImageView).alpha(0f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            }
 
-        if (mActionImageView.getVisibility() == VISIBLE) {
-            ViewCompat.setAlpha(mActionImageView, 1f);
-            ViewCompat.animate(mActionImageView).alpha(0f).setDuration(duration)
-                    .setStartDelay(delay).start();
+            if (mActionTextView.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mActionTextView, 1f);
+                ViewCompat.animate(mActionTextView).alpha(0f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            }
+
+            if (mActionImageView.getVisibility() == VISIBLE) {
+                ViewCompat.setAlpha(mActionImageView, 1f);
+                ViewCompat.animate(mActionImageView).alpha(0f).setDuration(duration)
+                        .setStartDelay(delay).start();
+            }
         }
     }
 
@@ -210,10 +254,22 @@ class GFMinimalNotificationLayout extends LinearLayout {
             setOrientation(orientation);
             changed = true;
         }
-        if (mMessageView.getPaddingTop() != messagePadTop
-                || mMessageView.getPaddingBottom() != messagePadBottom) {
-            updateTopBottomPadding(mMessageView, messagePadTop, messagePadBottom);
-            changed = true;
+        if (mHasCustomView) {
+            try {
+                if (getChildAt(0).getPaddingTop() != messagePadTop
+                        || getChildAt(0).getPaddingBottom() != messagePadBottom) {
+                    updateTopBottomPadding(getChildAt(0), messagePadTop, messagePadBottom);
+                    changed = true;
+                }
+            } catch (Throwable t) {
+                // no child to update
+            }
+        } else {
+            if (mMessageView.getPaddingTop() != messagePadTop
+                    || mMessageView.getPaddingBottom() != messagePadBottom) {
+                updateTopBottomPadding(mMessageView, messagePadTop, messagePadBottom);
+                changed = true;
+            }
         }
         return changed;
     }
