@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
@@ -221,20 +222,31 @@ public class GFMinimalNotification {
 
         TypedArray a = mContext.obtainStyledAttributes(new int[] { R.attr.colorPrimary });
         final boolean failed = !a.hasValue(0);
-        if (a != null) {
-            a.recycle();
-        }
+        a.recycle();
         if (failed) {
             throw new IllegalArgumentException("You need to use a Theme.AppCompat theme "
                     + "(or descendant) with the design library.");
         }
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        mView = (GFMinimalNotificationLayout) inflater.inflate(
-                R.layout.layout_minimal_notification, mTargetParent, false);
+        mView = (GFMinimalNotificationLayout) inflater.inflate(R.layout.layout_minimal_notification, mTargetParent, false);
 
         mAccessibilityManager = (AccessibilityManager)
                 mContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
+
+        resolveThemesAttributes();
+        setDuration(LENGTH_LONG);
+        setType(TYPE_DEFAULT);
+    }
+
+    private GFMinimalNotification(ViewGroup parent, @LayoutRes int customViewResId) {
+        this(parent);
+        setCustomView(customViewResId);
+    }
+
+    private GFMinimalNotification(ViewGroup parent, View customView) {
+        this(parent);
+        setCustomView(customView);
     }
 
     /**
@@ -249,7 +261,16 @@ public class GFMinimalNotification {
      * certain features, such as swipe-to-dismiss and automatically moving of widgets like
      * {@link FloatingActionButton}.
      *
-     * @param view     The view to find a parent from.
+     * @param view The view to find a parent from.
+     */
+    @NonNull
+    public static GFMinimalNotification make(@NonNull View view) {
+        return new GFMinimalNotification(findSuitableParent(view));
+    }
+
+    /**
+     * See {@link #make(View)}
+     *
      * @param text     The text to show.  Can be formatted text.
      * @param duration How long to display the message.  Either {@link #LENGTH_SHORT} or {@link
      *                 #LENGTH_LONG}
@@ -257,27 +278,15 @@ public class GFMinimalNotification {
     @NonNull
     public static GFMinimalNotification make(@NonNull View view, @NonNull CharSequence text,
                                              @Duration int duration) {
-        GFMinimalNotification notification = new GFMinimalNotification(findSuitableParent(view));
-        notification.resolveThemesAttributes();
+        GFMinimalNotification notification = make(view);
         notification.setText(text);
         notification.setDuration(duration);
-        notification.setType(TYPE_DEFAULT);
         return notification;
     }
 
     /**
-     * Make a GFMinimalNotification to display a message.
+     * See {@link #make(View)}
      *
-     * <p>GFMinimalNotification will try and find a parent view to hold GFMinimalNotification's view from the value given
-     * to {@code view}. GFMinimalNotification will walk up the view tree trying to find a suitable parent,
-     * which is defined as a {@link CoordinatorLayout} or the window decor's content view,
-     * whichever comes first.
-     *
-     * <p>Having a {@link CoordinatorLayout} in your view hierarchy allows GFMinimalNotification to enable
-     * certain features, such as swipe-to-dismiss and automatically moving of widgets like
-     * {@link FloatingActionButton}.
-     *
-     * @param view     The view to find a parent from.
      * @param resId    The resource id of the string resource to use. Can be formatted text.
      * @param duration How long to display the message.  Either {@link #LENGTH_SHORT} or {@link
      *                 #LENGTH_LONG}
@@ -327,6 +336,27 @@ public class GFMinimalNotification {
     }
 
     /**
+     * See {@link #make(View)}
+     *
+     * @param view            The view to find a parent from.
+     * @param customViewResId The custom view resource id to be inflated and used as the notification
+     */
+    @NonNull
+    public static GFMinimalNotification make(@NonNull View view, @LayoutRes int customViewResId) {
+        return new GFMinimalNotification(findSuitableParent(view), customViewResId);
+    }
+
+    /**
+     * See {@link #make(View, int)}
+     *
+     * @param customView The custom view to be used as the notification
+     */
+    @NonNull
+    public static GFMinimalNotification make(@NonNull View view, View customView) {
+        return new GFMinimalNotification(findSuitableParent(view), customView);
+    }
+
+    /**
      * Set the action to be displayed in this {@link GFMinimalNotification}.
      * Doing so removes the action image, if any
      *
@@ -344,14 +374,14 @@ public class GFMinimalNotification {
     }
 
     /**
-     * Set the action to be displayed in this {@link GFMinimalNotification}.
-     * Doing so removes the action image, if any
-     *
-     * @param text     Text to display
-     * @param listener callback to be invoked when the action is clicked
+     * See {@link #setAction(int, OnActionClickListener)}
      */
     @NonNull
     public GFMinimalNotification setAction(CharSequence text, final OnActionClickListener listener) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not set the action text when using a custom view");
+        }
+
         final TextView tv = mView.getActionTextView();
 
         if (TextUtils.isEmpty(text) || listener == null) {
@@ -375,22 +405,31 @@ public class GFMinimalNotification {
     }
 
     /**
-     * Sets the text color of the action specified in
-     * {@link #setAction(CharSequence, OnActionClickListener)}.
+     * Set the text color of the action specified in
+     * {@link #setAction(int, OnActionClickListener)}.
+     *
+     * @param colors ColorStateList to apply to the action image button
      */
     @NonNull
     public GFMinimalNotification setActionTextColor(ColorStateList colors) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not apply an action text color when using a custom view");
+        }
+
         final TextView tv = mView.getActionTextView();
         tv.setTextColor(colors);
         return this;
     }
 
     /**
-     * Sets the text color of the action specified in
-     * {@link #setAction(CharSequence, OnActionClickListener)}.
+     * See {@link #setActionTextColor(ColorStateList)}
      */
     @NonNull
     public GFMinimalNotification setActionTextColor(@ColorInt int color) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not apply an action text color when using a custom view");
+        }
+
         final TextView tv = mView.getActionTextView();
         tv.setTextColor(color);
         return this;
@@ -400,13 +439,13 @@ public class GFMinimalNotification {
      * Set the action drawable resource to be displayed in this {@link GFMinimalNotification}.
      * Doing so removes the action text, if any
      *
-     * @param resId    Drawable resource to display
-     * @param listener callback to be invoked when the action is clicked
+     * @param actionResId Drawable resource to display
+     * @param listener    Callback to be invoked when the action is clicked
      */
     @NonNull
-    public GFMinimalNotification setActionImage(@DrawableRes int resId, OnActionClickListener listener) {
+    public GFMinimalNotification setActionImage(@DrawableRes int actionResId, OnActionClickListener listener) {
         try {
-            return setActionImage(ContextCompat.getDrawable(mContext, resId), listener);
+            return setActionImage(ContextCompat.getDrawable(mContext, actionResId), listener);
         } catch (Resources.NotFoundException exception) {
             exception.printStackTrace();
             mView.getActionImageView().setVisibility(View.GONE);
@@ -415,14 +454,14 @@ public class GFMinimalNotification {
     }
 
     /**
-     * Set the action drawable to be displayed in this {@link GFMinimalNotification}.
-     * Doing so removes the action text, if any
-     *
-     * @param drawable Drawable to display
-     * @param listener callback to be invoked when the action is clicked
+     * See {@link #setActionImage(int, OnActionClickListener)}
      */
     @NonNull
     public GFMinimalNotification setActionImage(Drawable drawable, final OnActionClickListener listener) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not apply an action image when using a custom view");
+        }
+
         final ImageButton btn = mView.getActionImageView();
 
         if (drawable == null || listener == null) {
@@ -462,12 +501,14 @@ public class GFMinimalNotification {
     }
 
     /**
-     * Set the helper drawable resource to be displayed in this {@link GFMinimalNotification}.
-     *
-     * @param drawable Drawable to display as helper image
+     * See {@link #setHelperImage(int)}
      */
     @NonNull
     public GFMinimalNotification setHelperImage(Drawable drawable) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not apply a helper image when using a custom view");
+        }
+
         final ImageView iv = mView.getHelperImageView();
 
         if (drawable == null) {
@@ -482,27 +523,29 @@ public class GFMinimalNotification {
     /**
      * Update the text in this {@link GFMinimalNotification}.
      *
-     * @param message The new text for the notification.
+     * @param textResId The new text for the notification.
      */
     @NonNull
-    public GFMinimalNotification setText(@NonNull CharSequence message) {
-        final TextView tv = mView.getMessageView();
-        tv.setText(message);
+    public GFMinimalNotification setText(@StringRes int textResId) {
+        try {
+            return setText(mContext.getText(textResId));
+        } catch (Resources.NotFoundException exception) {
+            exception.printStackTrace();
+        }
         return this;
     }
 
     /**
-     * Update the text in this {@link GFMinimalNotification}.
-     *
-     * @param resId The new text for the notification.
+     * See {@link #setText(int)}
      */
     @NonNull
-    public GFMinimalNotification setText(@StringRes int resId) {
-        try {
-            return setText(mContext.getText(resId));
-        } catch (Resources.NotFoundException exception) {
-            exception.printStackTrace();
+    public GFMinimalNotification setText(@NonNull CharSequence text) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not set the text when using a custom view");
         }
+
+        final TextView tv = mView.getMessageView();
+        tv.setText(text);
         return this;
     }
 
@@ -513,6 +556,10 @@ public class GFMinimalNotification {
      */
     @NonNull
     public GFMinimalNotification setTextAppearance(@StyleRes int resId) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not apply a custom text appearance when using a custom view");
+        }
+
         try {
             final TextView tv = mView.getMessageView();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -524,6 +571,29 @@ public class GFMinimalNotification {
         } catch (Resources.NotFoundException exception) {
             exception.printStackTrace();
         }
+        return this;
+    }
+
+    /**
+     * Apply a custom view to the notification. Doing so will remove all internal views, however, you may still set the
+     * notification type or apply a custom background color.
+     *
+     * @param customViewResId The custom view resource id to be inflated and used as the notification
+     */
+    public GFMinimalNotification setCustomView(@LayoutRes int customViewResId) {
+        mView.updateWithCustomView(customViewResId);
+
+        return this;
+    }
+
+    /**
+     * See {@link #setCustomView(int)}
+     *
+     * @param customView The custom view to be used as the notification
+     */
+    public GFMinimalNotification setCustomView(View customView) {
+        mView.updateWithCustomView(customView);
+
         return this;
     }
 
@@ -558,7 +628,7 @@ public class GFMinimalNotification {
      */
     public GFMinimalNotification setDirection(@Direction int direction) {
         if (direction == mDirection) {
-            // no need to update, we already are matched
+            // no need to update, we are already matched
             return this;
         }
 
@@ -636,6 +706,10 @@ public class GFMinimalNotification {
      * @param customIconTintColor The color to be set as the tint for the helper and action image views
      */
     public GFMinimalNotification setCustomIconTintColor(int customIconTintColor) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not apply a custom icon tint color when using a custom view");
+        }
+
         mView.getHelperImageView().setColorFilter(customIconTintColor);
         mView.getActionImageView().setColorFilter(customIconTintColor);
         return this;
@@ -647,6 +721,14 @@ public class GFMinimalNotification {
     @NonNull
     public View getView() {
         return mView;
+    }
+
+    /**
+     *
+     * @return a boolean determining if this notification is using a custom view
+     */
+    public boolean isUsingCustomView() {
+        return mView.hasCustomView();
     }
 
     /**
