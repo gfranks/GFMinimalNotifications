@@ -14,7 +14,6 @@
         android:layout_marginTop="10dp"
         android:maxHeight="45dp"
         android:maxWidth="45dp"
-        android:tint="?android:textColorPrimary"
         android:visibility="gone" />
 
     <TextView
@@ -59,6 +58,5 @@
         android:layout_marginRight="3dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="10dp"
-        android:tint="?android:textColorPrimary"
         android:visibility="gone" />
 </merge>
