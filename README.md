@@ -19,6 +19,9 @@ so you may ignore this in your custom layouts. If you set a background color/dra
 affect this and the bounds will make it appear oddly. To mediate this, please use the `setCustomBackgroundColor(int)` method to apply your
 own color.
 
+### Update 2.1.1
+Add ability to update the maximum number of lines displayed in the notification
+
 How To Use It:
 -------------
 
@@ -85,6 +88,9 @@ public GFMinimalNotification setText(int resId);
 // Update the text appearance in the notification
 public GFMinimalNotification setTextAppearance(int resId);
 
+// Update the maximum number of lines displayed in the notification
+public GFMinimalNotification setMaxLines(int maxLines);
+
 // Supply your own custom view to be shown in the notification
 public GFMinimalNotification setCustomView(int customViewResId);
 public GFMinimalNotification setCustomView(View customView);
@@ -110,18 +116,21 @@ public GFMinimalNotification setCustomIconTintColor(int customIconTintColor);
 // Apply global theme for default type colors and text appearance
 <style name="YourAppTheme" parent="Theme.AppCompat">
     ...
-    
+
     // Overrides the default type background color
     <item name="gf_notification_type_default">@color/my_default_color</item>
-    
+
     // Overrides the error type background color
     <item name="gf_notification_type_error">@color/my_error_color</item>
-    
+
     // Overrides the warning type background color
     <item name="gf_notification_type_warning">@color/my_warning_color</item>
-    
-    // Set your own text appearance 
+
+    // Set your own text appearance
     <item name="gf_notification_textAppearance">@style/my_text_appearance</item>
+
+    // Overrides the maxLines of notification (defaults to 2)
+    <item name="gf_notification_maxLines">5</item>
     
     // Overrides the default direction to display the notification from
     <item name="gf_notification_direction">top|bottom</item>

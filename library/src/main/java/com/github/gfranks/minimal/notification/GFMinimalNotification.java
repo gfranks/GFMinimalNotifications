@@ -561,7 +561,7 @@ public class GFMinimalNotification {
         }
 
         try {
-            final TextView tv = mView.getMessageView();
+            TextView tv = mView.getMessageView();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 tv.setTextAppearance(resId);
             } else {
@@ -571,6 +571,22 @@ public class GFMinimalNotification {
         } catch (Resources.NotFoundException exception) {
             exception.printStackTrace();
         }
+        return this;
+    }
+
+    /**
+     * Update the maximum number of lines allowed in the notification
+     *
+     * @param maxLines The new number of max lines (defaults to 2)
+     */
+    @NonNull
+    public GFMinimalNotification setMaxLines(int maxLines) {
+        if (mView.hasCustomView()) {
+            throw new IllegalStateException("You may not set max lines when using a custom view");
+        }
+
+        mView.getMessageView().setMaxLines(maxLines);
+
         return this;
     }
 
@@ -995,7 +1011,7 @@ public class GFMinimalNotification {
     private void resolveThemesAttributes() {
         TypedArray a = mContext.obtainStyledAttributes(new int[] { R.attr.gf_notification_type_default,
                 R.attr.gf_notification_type_error, R.attr.gf_notification_type_warning, R.attr.gf_notification_textAppearance,
-                R.attr.gf_notification_direction });
+                R.attr.gf_notification_maxLines, R.attr.gf_notification_direction });
         if (a != null) {
             if (a.hasValue(R.styleable.GFMinimalNotificationTheme_gf_notification_type_default)) {
                 COLOR_DEFAULT = a.getColor(R.styleable.GFMinimalNotificationTheme_gf_notification_type_default, COLOR_DEFAULT);
@@ -1008,6 +1024,9 @@ public class GFMinimalNotification {
             }
             if (a.hasValue(R.styleable.GFMinimalNotificationTheme_gf_notification_textAppearance)) {
                 setTextAppearance(a.getResourceId(R.styleable.GFMinimalNotificationTheme_gf_notification_textAppearance, -1));
+            }
+            if (a.hasValue(R.styleable.GFMinimalNotificationTheme_gf_notification_maxLines)) {
+                setMaxLines(a.getInt(R.styleable.GFMinimalNotificationTheme_gf_notification_maxLines, 2));
             }
             if (a.hasValue(R.styleable.GFMinimalNotificationTheme_gf_notification_direction)) {
                 DIRECTION_DEFAULT = a.getInt(R.styleable.GFMinimalNotificationTheme_gf_notification_direction, DIRECTION_DEFAULT);
