@@ -12,6 +12,7 @@ class GFMinimalNotificationManager {
 
     private static final int SHORT_DURATION_MS = 1500;
     private static final int LONG_DURATION_MS = 2750;
+    private static final int EXTRA_LONG_DURATION_MS = 5000;
 
     private static GFMinimalNotificationManager sManager;
 
@@ -195,9 +196,11 @@ class GFMinimalNotificationManager {
             return;
         }
 
-        int durationMs = LONG_DURATION_MS;
-        if (r.duration > 0) {
+        int durationMs = EXTRA_LONG_DURATION_MS;
+        if (r.duration > 1) {
             durationMs = r.duration;
+        } else if (r.duration == GFMinimalNotification.LENGTH_LONG) {
+            durationMs = LONG_DURATION_MS;
         } else if (r.duration == GFMinimalNotification.LENGTH_SHORT) {
             durationMs = SHORT_DURATION_MS;
         }

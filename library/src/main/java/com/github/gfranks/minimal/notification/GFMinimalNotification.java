@@ -103,13 +103,6 @@ public class GFMinimalNotification {
     /**
      * @hide
      */
-    @IntDef({LENGTH_INDEFINITE, LENGTH_SHORT, LENGTH_LONG})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Duration {}
-
-    /**
-     * @hide
-     */
     @IntDef({TYPE_DEFAULT, TYPE_ERROR, TYPE_WARNING})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {}
@@ -142,6 +135,13 @@ public class GFMinimalNotification {
      * @see #setDuration
      */
     public static final int LENGTH_LONG = 0;
+
+    /**
+     * Show the GFMinimalNotification for an extra long period of time.
+     *
+     * @see #setDuration
+     */
+    public static final int LENGTH_EXTRA_LONG = 1;
 
     /**
      * Show the GFMinimalNotification with the default type settings. This means that the GFMinimalNotification
@@ -208,7 +208,7 @@ public class GFMinimalNotification {
     private final ViewGroup mTargetParent;
     private final Context mContext;
     private final GFMinimalNotificationLayout mView;
-    private @Duration int mDuration;
+    private int mDuration;
     private @Type int mType;
     private @ColorInt int mCustomBackgroundColor = -1;
     private @Direction int mDirection = DIRECTION_DEFAULT;
@@ -277,7 +277,7 @@ public class GFMinimalNotification {
      */
     @NonNull
     public static GFMinimalNotification make(@NonNull View view, @NonNull CharSequence text,
-                                             @Duration int duration) {
+                                             int duration) {
         GFMinimalNotification notification = make(view);
         notification.setText(text);
         notification.setDuration(duration);
@@ -292,7 +292,7 @@ public class GFMinimalNotification {
      *                 #LENGTH_LONG}
      */
     @NonNull
-    public static GFMinimalNotification make(@NonNull View view, @StringRes int resId, @Duration int duration) {
+    public static GFMinimalNotification make(@NonNull View view, @StringRes int resId, int duration) {
         try {
             return make(view, view.getResources().getText(resId), duration);
         } catch (Resources.NotFoundException exception) {
@@ -309,7 +309,7 @@ public class GFMinimalNotification {
      */
     @NonNull
     public static GFMinimalNotification make(@NonNull View view, @NonNull CharSequence text,
-                                             @Duration int duration, @Type int type) {
+                                             int duration, @Type int type) {
         GFMinimalNotification notification = make(view, text, duration);
         notification.setType(type);
         return notification;
@@ -322,7 +322,7 @@ public class GFMinimalNotification {
      * or {@link #TYPE_WARNING}
      */
     @NonNull
-    public static GFMinimalNotification make(@NonNull View view, @StringRes int resId, @Duration int duration,
+    public static GFMinimalNotification make(@NonNull View view, @StringRes int resId, int duration,
                                              @Type int type) {
         GFMinimalNotification notification;
         try {
@@ -621,7 +621,7 @@ public class GFMinimalNotification {
      *                 in milliseconds.
      */
     @NonNull
-    public GFMinimalNotification setDuration(@Duration int duration) {
+    public GFMinimalNotification setDuration(int duration) {
         mDuration = duration;
         return this;
     }
@@ -631,7 +631,6 @@ public class GFMinimalNotification {
      *
      * @see #setDuration
      */
-    @Duration
     public int getDuration() {
         return mDuration;
     }
