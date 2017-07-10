@@ -11,7 +11,7 @@
         <attr name="gf_notification_type_error" format="color" />
         <attr name="gf_notification_type_warning" format="color" />
         <attr name="gf_notification_textAppearance" format="reference" />
-        <attr name="gf_notification_maxLines" format="integer" />
+        <attr name="gf_notification_maxLines" format="integer|reference" />
         <attr name="gf_notification_direction" format="enum">
             <enum name="top" value="1" />
             <enum name="bottom" value="2" />

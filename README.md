@@ -22,6 +22,9 @@ own color.
 ### Update 2.1.1
 Add ability to update the maximum number of lines displayed in the notification
 
+### Update 2.2.0
+Resolved a crash when attempting to resolve themed attributes
+
 How To Use It:
 -------------
 

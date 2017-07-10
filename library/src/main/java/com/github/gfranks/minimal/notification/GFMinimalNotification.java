@@ -1008,9 +1008,7 @@ public class GFMinimalNotification {
     }
 
     private void resolveThemesAttributes() {
-        TypedArray a = mContext.obtainStyledAttributes(new int[] { R.attr.gf_notification_type_default,
-                R.attr.gf_notification_type_error, R.attr.gf_notification_type_warning, R.attr.gf_notification_textAppearance,
-                R.attr.gf_notification_maxLines, R.attr.gf_notification_direction });
+        TypedArray a = mContext.obtainStyledAttributes(R.styleable.GFMinimalNotificationTheme);
         if (a != null) {
             if (a.hasValue(R.styleable.GFMinimalNotificationTheme_gf_notification_type_default)) {
                 COLOR_DEFAULT = a.getColor(R.styleable.GFMinimalNotificationTheme_gf_notification_type_default, COLOR_DEFAULT);

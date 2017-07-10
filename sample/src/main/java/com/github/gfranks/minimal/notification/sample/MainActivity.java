@@ -10,21 +10,21 @@ import android.widget.EditText;
 
 import com.github.gfranks.minimal.notification.GFMinimalNotification;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.sample_coordinator_layout)
+    @BindView(R.id.sample_coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
-    @InjectView(R.id.sample_toolbar)
+    @BindView(R.id.sample_toolbar)
     Toolbar mToolbar;
-    @InjectView(R.id.sample_text)
+    @BindView(R.id.sample_text)
     EditText mText;
-    @InjectView(R.id.sample_action)
+    @BindView(R.id.sample_action)
     EditText mAction;
-    @InjectView(R.id.sample_use_action_text)
+    @BindView(R.id.sample_use_action_text)
     Button mUseActionTextButton;
 
     private int mDirection = GFMinimalNotification.DIRECTION_BOTTOM;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
     }
