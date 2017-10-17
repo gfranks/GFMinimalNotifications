@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.github.gfranks.minimal.notifications.sample"
@@ -23,10 +23,10 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:appcompat-v7:25.3.1'
-    api 'com.android.support:design:25.3.1'
-    api 'com.jakewharton:butterknife:8.7.0'
+    api 'com.android.support:appcompat-v7:26.1.0'
+    api 'com.android.support:design:26.1.0'
+    api 'com.jakewharton:butterknife:8.8.1'
 
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     api project(':library')
 }

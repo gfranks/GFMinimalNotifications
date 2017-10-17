@@ -67,50 +67,76 @@ public static GFMinimalNotification make(View view, int resId, int duration,
 public static GFMinimalNotification make(View view, int customViewResId);
 
 public static GFMinimalNotification make(View view, View customView);
-                                          
-// Set the action to be displayed. Doing so removes the action image, if any
+   
+/**
+ * Set the action to be displayed. Doing so removes the action image, if any
+ */
 public GFMinimalNotification setAction(int resId, OnActionClickListener listener);
 public GFMinimalNotification setAction(CharSequence text, OnActionClickListener listener);
 
-// Sets the text color of the action specified in
+/**
+ * Sets the text color of the action specified in
+ */
 public GFMinimalNotification setActionTextColor(ColorStateList colors);
 public GFMinimalNotification setActionTextColor(int color);
 
-// Set the action drawable resource to be displayed. Doing so removes the action text, if any
+/**
+ * Set the action drawable resource to be displayed. Doing so removes the action text, if any
+ */
 public GFMinimalNotification setActionImage(int resId, OnActionClickListener listener);
 public GFMinimalNotification setActionImage(Drawable drawable, OnActionClickListener listener);
 
-// Set the helper drawable resource to be displayed
+/**
+ * Set the helper drawable resource to be displayed
+ */
 public GFMinimalNotification setHelperImage(int resId);
 public GFMinimalNotification setHelperImage(Drawable drawable);
 
-// Update the text of the notification
+/**
+ * Update the text of the notification
+ */
 public GFMinimalNotification setText(CharSequence message);
 public GFMinimalNotification setText(int resId);
 
-// Update the text appearance in the notification
+/**
+ * Update the text appearance in the notification
+ */
 public GFMinimalNotification setTextAppearance(int resId);
 
-// Update the maximum number of lines displayed in the notification
+/**
+ * Update the maximum number of lines displayed in the notification
+ */
 public GFMinimalNotification setMaxLines(int maxLines);
 
-// Supply your own custom view to be shown in the notification
+/**
+ * Supply your own custom view to be shown in the notification
+ */
 public GFMinimalNotification setCustomView(int customViewResId);
 public GFMinimalNotification setCustomView(View customView);
 
-// Update how long the notification is displayed
+/**
+ * Update how long the notification is displayed
+ */
 public GFMinimalNotification setDuration(int duration);
 
-// Set the direction the notification should animate in from. (DIRECTION_TOP or DIRECTION_BOTTOM)
+/**
+ * Set the direction the notification should animate in from. (DIRECTION_TOP or DIRECTION_BOTTOM)
+ */
 public GFMinimalNotification setDirection(int direction);
 
-// Update the type of notification. (TYPE_DEFAULT, TYPE_ERROR, or TYPE_WARNING)
+/**
+ * Update the type of notification. (TYPE_DEFAULT, TYPE_ERROR, or TYPE_WARNING)
+ */
 public GFMinimalNotification setType(int type);
 
-// Set your own background color on the notification
+/**
+ * Set your own background color on the notification
+ */
 public GFMinimalNotification setCustomBackgroundColor(int customBackgroundColor);
 
-// Set your own tint colors used to tint icons (helper and action)
+/**
+ * Set your own tint colors used to tint icons (helper and action)
+ */
 public GFMinimalNotification setCustomIconTintColor(int customIconTintColor);
 ```
 
@@ -240,28 +266,23 @@ Features Coming:
 Installation:
 ------------
 
-### Directly include source into your projects
+### Gradle/JitPack
 
-- Simply copy the source/resource files from the library folder into your project.
-
-### Use binary approach
-
-- Follow these steps to include aar binary in your project:
-
-    1: Copy com.github.gfranks.minimal.notification-2.1.aar into your projects libs/ directory.
-
-    2: Include the following either in your top level build.gradle file or your module specific one:
-    ```
-      repositories {
-         flatDir {
-             dirs 'libs'
-         }
-     }
-    ```
-    3: Under your dependencies for your main module's build.gradle file, you can reference that aar file like so: 
-    ```compile 'com.github.gfranks.minimal.notification:com.github.gfranks.minimal.notification-2.1@aar'```
-    
-    (NOTE: v1.0 and v2.0 are still available, if you wish to continue using it. Follow the same binary approach but reference 1.0@aar or 2.0@aar)
+- Add JitPack to your top-level build.gradle file
+```
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+- Add GFMinimalNotifications to your module's build.gradle file
+```
+dependencies {
+     api 'com.github.gfranks:GFMinimalNotifications:<version>'
+}
+```
 
 License
 -------
