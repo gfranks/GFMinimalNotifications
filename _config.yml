@@ -1,0 +1,8 @@
+title: Gfminimalnotifications
+description: GFMinimalNotifications - Beautiful and easy to use Android notifications
+google_analytics: UA-73397886-2
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
