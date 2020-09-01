@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
@@ -435,6 +436,41 @@ public class GFMinimalNotification {
         return this;
     }
 
+	/**
+	 * Sets the typeface and style in which the action text should be displayed,
+	 * and turns on the fake bold and italic bits in the Paint if the
+	 *
+	 * @param typeface Typeface that you provided does not have all the bits in the
+	 */
+	@NonNull
+	public GFMinimalNotification setActionTypeface(Typeface typeface) {
+		if (mView.hasCustomView()) {
+			throw new IllegalStateException("You may not apply an action text typeface when using a custom view");
+		}
+
+		final TextView tv = mView.getActionTextView();
+		tv.setTypeface(typeface);
+		return this;
+	}
+
+	/**
+	 * Sets the typeface and style in which the text should be displayed,
+	 * and turns on the fake bold and italic bits in the Paint if the
+	 *
+	 * @param typeface Typeface that you provided does not have all the bits in the
+	 * @param style that you specified.
+	 */
+	@NonNull
+	public GFMinimalNotification setActionTypeface(Typeface typeface, int style) {
+		if (mView.hasCustomView()) {
+			throw new IllegalStateException("You may not apply an action text typeface when using a custom view");
+		}
+
+		final TextView tv = mView.getActionTextView();
+		tv.setTypeface(typeface, style);
+		return this;
+	}
+
     /**
      * Set the action drawable resource to be displayed in this {@link GFMinimalNotification}.
      * Doing so removes the action text, if any
@@ -573,6 +609,41 @@ public class GFMinimalNotification {
         }
         return this;
     }
+
+	/**
+	 * Sets the typeface and style in which the text should be displayed,
+	 * and turns on the fake bold and italic bits in the Paint if the
+	 *
+	 * @param typeface Typeface that you provided does not have all the bits in the
+	 */
+	@NonNull
+	public GFMinimalNotification setTextTypeface(Typeface typeface) {
+		if (mView.hasCustomView()) {
+			throw new IllegalStateException("You may not apply a custom text typeface when using a custom view");
+		}
+
+		TextView tv = mView.getMessageView();
+		tv.setTypeface(typeface);
+		return this;
+	}
+
+	/**
+	 * Sets the typeface and style in which the text should be displayed,
+	 * and turns on the fake bold and italic bits in the Paint if the
+	 *
+	 * @param typeface Typeface that you provided does not have all the bits in the
+	 * @param style that you specified.
+	 */
+	@NonNull
+	public GFMinimalNotification setTextTypeface(Typeface typeface, int style) {
+		if (mView.hasCustomView()) {
+			throw new IllegalStateException("You may not apply a custom text typeface when using a custom view");
+		}
+
+		TextView tv = mView.getMessageView();
+		tv.setTypeface(typeface, style);
+		return this;
+	}
 
     /**
      * Update the maximum number of lines allowed in the notification
