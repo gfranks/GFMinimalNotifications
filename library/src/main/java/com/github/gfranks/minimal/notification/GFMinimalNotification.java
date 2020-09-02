@@ -25,6 +25,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -437,6 +438,27 @@ public class GFMinimalNotification {
     }
 
 	/**
+	 * Set the default action text size to the given value, interpreted as "scaled
+	 * pixel" units.  This size is adjusted based on the current density and
+	 * user font size preference.
+	 *
+	 * <p>Note: if this TextView has the auto-size feature enabled than this function is no-op.
+	 *
+	 * @param size The scaled pixel size.
+	 *
+	 */
+	@NonNull
+	public GFMinimalNotification setActionTextSize(float size) {
+		if (mView.hasCustomView()) {
+			throw new IllegalStateException("You may not apply a custom action text size when using a custom view");
+		}
+
+		final TextView tv = mView.getActionTextView();
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+		return this;
+	}
+
+	/**
 	 * Sets the typeface and style in which the action text should be displayed,
 	 * and turns on the fake bold and italic bits in the Paint if the
 	 *
@@ -609,6 +631,27 @@ public class GFMinimalNotification {
         }
         return this;
     }
+
+	/**
+	 * Set the default text size to the given value, interpreted as "scaled
+	 * pixel" units.  This size is adjusted based on the current density and
+	 * user font size preference.
+	 *
+	 * <p>Note: if this TextView has the auto-size feature enabled than this function is no-op.
+	 *
+	 * @param size The scaled pixel size.
+	 *
+	 */
+	@NonNull
+	public GFMinimalNotification setTextSize(float size) {
+		if (mView.hasCustomView()) {
+			throw new IllegalStateException("You may not apply a custom text size when using a custom view");
+		}
+
+		TextView tv = mView.getMessageView();
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+		return this;
+	}
 
 	/**
 	 * Sets the typeface and style in which the text should be displayed,
